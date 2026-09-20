@@ -1,0 +1,88 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  openapi/luthersystems-com-agentsearch-openapi.yml, https://agentsearch.luthersystems.com/api-docs and
+  /llms.txt, the AgentSearch agent card (pricing.rateLimit), the live InsideOut tools/list descriptions
+  (mcp/luthersystems-com-insideout-mcp-tools.json — tfplan, tfdeploy, tfdestroy, stackrollback,
+  stackversions, tflogs) and the InsideOut SKILL.md / SECURITY.md.
+description: >-
+  Two surfaces with different semantics. AgentSearch is a read-only, anonymous HTTP/MCP/A2A API — no
+  writes to protect, page/page_size pagination, undocumented error envelope beyond one 404, best-effort
+  per-IP rate limiting with no documented headers. InsideOut is a session-scoped MCP surface whose writes
+  are Terraform jobs: it has a first-class dry run (tfplan -> plan_id -> tfdeploy), a single-flight rule
+  per session, versioned stack designs with rollback, and a destroy operation — but it documents no
+  idempotency key and no time window for any reversal.
+cross_links:
+  authentication: authentication/luthersystems-com-authentication.yml
+  errors: errors/luthersystems-com-problem-types.yml
+  lifecycle: lifecycle/luthersystems-com-lifecycle.yml
+  rate_limits: rate-limits/luthersystems-com-rate-limits.yml
+  mcp: mcp/luthersystems-com-mcp.yml
+auth:
+  agentsearch: none (public)
+  insideout: 'session token embedded in session_id (from convoopen); browser-based cloud credential connection for deployment'
+pagination:
+  style: offset (page / page_size)
+  params: [page, page_size]
+  defaults: 'page_size 100 (llms.txt); browse tool default page 1'
+  response_fields: 'page of AgentSummary records plus pagination metadata (legacy card text); not schematised in the OpenAPI'
+  streaming: 'tflogs cursors with last_event_id / tail on InsideOut'
+field_expansion: none
+metadata: none
+request_id: not documented (no X-Request-Id or trace header described)
+versioning:
+  agentsearch: unversioned paths, product version 0.1.0
+  insideout: '/v1/insideout-mcp path; A2A v0 (0.3) and root (1.0) endpoints coexist'
+error_envelope:
+  http: 'undocumented beyond 404 on getAgent (no schema)'
+  jsonrpc: 'JSON-RPC 2.0 error {code, message, data[google.rpc.ErrorInfo]} on the InsideOut A2A endpoint; MCP errors as JSON-RPC errors or tool-level codes (tf_job_conflict, auth_required)'
+rate_limit_signaling:
+  documented: '~60 requests per minute per IP, best effort (agent card pricing.rateLimit); api-docs: "no rate limit beyond best-effort fairness"'
+  headers: not documented
+  status_on_exhaustion: not documented
+idempotency:
+  coverage: none
+  header: null
+  retention: null
+  scope: []
+  note: >-
+    AgentSearch exposes no mutating operation in its OpenAPI or tool list (POST /api/search and
+    /api/found-agent compute and return; the only write, POST /api/submit-agent, is documented outside the
+    spec with no idempotency mechanism). InsideOut's mutating tools (convoopen, tfgenerate, tfdeploy,
+    tfdestroy, stackrollback, submit_feedback) document no idempotency key; the closest mechanism is the
+    single-flight rule — a second tfdeploy/tfplan/tfdestroy while a job is in flight returns
+    tf_job_conflict with the live job_id instead of starting a duplicate, and force_new=true overrides it.
+    That is duplicate suppression for one job at a time, not replay protection, so coverage is none.
+dry_run:
+  status: documented
+  mechanism: 'tfplan runs terraform plan without applying; returns job_id, plan_id, project_id; tfdeploy accepts plan_id to apply exactly that plan'
+  scope: [tfdeploy]
+  evidence: live tfplan and tfdeploy tool descriptions
+reversibility:
+  status: documented
+  note: >-
+    Reversal paths exist for the two InsideOut write surfaces but NO time window is stated anywhere, so
+    the grade is documented (reversal path) rather than verified (path + window). AgentSearch is read-only
+    (na). Enterprise-platform reversals (Terraform state, phylum migrations) are customer-operated and
+    not on a public surface.
+  surfaces:
+  - write: tfdeploy (deploy infrastructure to the user's AWS/GCP account)
+    reversal: tfdestroy
+    reversal_operation: tfdestroy
+    window: not stated
+    conditions: 'session must have a prior successful deployment; single-flight rule applies; long-running job monitored via tfstatus/tflogs'
+    docs: https://github.com/luthersystems/insideout-agent-skills/blob/main/SKILL.md
+  - write: convoreply / tfgenerate (advance or change the stack design)
+    reversal: stackrollback
+    reversal_operation: stackrollback
+    window: not stated
+    conditions: 'creates a draft version copying a previous version''s components/config/pricing (single-draft rule); use stackversions to list targets'
+    docs: live tool description (mcp/luthersystems-com-insideout-mcp-tools.json)
+  - write: tfplan
+    reversal: na
+    note: A plan applies nothing; nothing to reverse.
+  - write: submit_feedback / POST /api/submit-agent
+    reversal: none documented
+  - write: AgentSearch reads
+    reversal: na
+    note: Read-only API.

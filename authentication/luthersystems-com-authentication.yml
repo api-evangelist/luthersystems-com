@@ -1,0 +1,59 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://agentsearch.luthersystems.com/.well-known/agent-card.json (securitySchemes), the AgentSearch
+  OpenAPI (no securitySchemes), https://agentsearch.luthersystems.com/api-docs, the InsideOut SKILL.md,
+  AGENTS.md and SECURITY.md in https://github.com/luthersystems/insideout-agent-skills, live tools/list
+  descriptions (convoopen, credawait), the InsideOut A2A endpoint's -32602 X-A2A-Task-Secret response,
+  https://github.com/luthersystems/lutherauth-sdk-go and the sandbox starter kit's oracle.swagger.json.
+  derive-authentication.py produced no profile because the OpenAPI declares no securitySchemes.
+description: >-
+  Three distinct postures. AgentSearch is anonymous end to end — no keys, the card declares
+  securitySchemes.public.type "none". InsideOut is anonymous for design and pricing but session-scoped:
+  convoopen mints a session_id whose ?token= suffix is the per-session credential, deployment requires the
+  user to connect AWS/GCP credentials in a browser (the cloud provider's own OAuth, never passed through
+  the agent) and to subscribe, and the A2A tasks/get method requires an X-A2A-Task-Secret header. The
+  Luther Enterprise platform (customer-deployed) authenticates with RS256 JWTs issued by LutherAuth against
+  external OIDC IdPs (Cognito, AzureAD, Auth0), with API-key pre-validation supported by the Go SDK and an
+  X-API-KEY header on the starter-kit middleware API.
+schemes:
+- name: public
+  api: AgentSearch (HTTP, MCP, A2A)
+  type: none
+  description: All endpoints publicly readable; no credential of any kind. Rate limiting is per IP, best effort.
+  evidence: 'agent card securitySchemes.public is {"type":"none"}; OpenAPI has no securitySchemes/security; MCP initialize + tools/list answered anonymously.'
+- name: insideout-session-token
+  api: InsideOut MCP (https://app.luthersystems.com/v1/insideout-mcp)
+  type: bearer-in-session-id
+  description: convoopen returns session_id in the form sess_v2_xxx?token=yyy; the token is part of the session id and must be sent verbatim on every later tool call. No user-supplied API key. Mcp-Session-Id header carries the MCP transport session.
+  scopes: none
+  evidence: convoopen tool description (live tools/list); SKILL.md "No API keys required from the user".
+- name: cloud-credential-connect
+  api: InsideOut MCP (tfdeploy, tfdestroy, awsinspect, gcpinspect)
+  type: delegated (browser-based cloud-provider OAuth, out of band)
+  description: Deployment and inspection need the user to open a connect URL, authenticate directly with AWS or GCP and subscribe to a Luther Systems plan; credawait polls for completion. Credentials are held by the InsideOut platform, never by the agent or skill.
+  evidence: credawait tool description; SECURITY.md "Cloud credentials" section.
+- name: x-a2a-task-secret
+  api: InsideOut A2A (https://insideout.luthersystems.com/insideout-a2a/v0/)
+  type: apiKey
+  in: header
+  header: X-A2A-Task-Secret
+  description: Required by tasks/get; not declared in the card's securitySchemes.
+  evidence: 'live -32602 "X-A2A-Task-Secret header is required: invalid params".'
+- name: lutherauth-jwt
+  api: Luther Enterprise platform (customer-deployed middleware / gRPC)
+  type: http
+  scheme: bearer
+  bearer_format: JWT (RS256)
+  description: Tokens issued by LutherAuth after OAuth/OIDC login with an external IdP; validated from gRPC metadata, HTTP cookies or headers via lutherauth-sdk-go with JWK caching and CSRF nonces. LutherAuth v4.7.6 added Auth0 alongside Cognito and AzureAD.
+  evidence: https://github.com/luthersystems/lutherauth-sdk-go README; docs release-notes.md.
+- name: x-api-key
+  api: Luther Platform starter-kit middleware (sandbox oracle API)
+  type: apiKey
+  in: header
+  header: X-API-KEY
+  description: securityDefinitions.X-API-KEY in the grpc-gateway-generated oracle.swagger.json of the sandbox starter kit; the platform SDK also supports API-key pre-validation before claim extraction.
+  evidence: https://github.com/luthersystems/sandbox/blob/main/api/srvpb/v1/oracle.swagger.json
+docs: https://github.com/luthersystems/insideout-agent-skills/blob/main/SECURITY.md
+oauth: false
+oidc_discovery: false

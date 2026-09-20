@@ -1,0 +1,41 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://agentsearch.luthersystems.com/.well-known/agent-card.json (version 0.1.0), live MCP initialize
+  responses (agentsearch 0.1.0, insideout-agent v2.0.0), the InsideOut agent card's supportedInterfaces
+  (v0 and 1.0 A2A paths), https://github.com/luthersystems/docs/blob/main/release-notes.md and
+  announcements.md, the GitHub org repo list, and DNS/HTTP probes for a status page.
+description: >-
+  Versioning is per product and per component, not platform-wide. AgentSearch is 0.1.x across its card,
+  HTTP API and npm package. InsideOut runs A2A endpoints for protocol 0.3 (/insideout-a2a/v0/) and 1.0
+  (/insideout-a2a/) side by side and its MCP server reports v2.0.0 while the npm stdio package is 0.50.1.
+  The enterprise platform logs substrate v2.205.x and LutherAuth v4.x releases with dates and announced
+  one breaking major (v3.0.0, 2024-09-01) with a migration write-up. No status page exists
+  (status.luthersystems.com does not resolve), no SLA is published, and no deprecation policy or
+  Sunset/Deprecation header (RFC 8594) is documented; deprecations are signalled by archiving GitHub
+  repositories and prefixing descriptions with DEPRECATED.
+versioning:
+  agentsearch: '0.1.0 (card + OpenAPI info.version); npm 0.1.2. URL paths are unversioned (/api/...).'
+  insideout_a2a: 'v0 path = protocolVersion 0.3 (card url); root path = protocolVersion 1.0; both live.'
+  insideout_mcp: 'server v2.0.0 (protocol 2025-06-18); npm 0.50.1; Docker latest 2026-08-26. Path /v1/insideout-mcp is versioned.'
+  luther_platform: 'substrate v2.205.13 (2025-06-24), LutherAuth v4.7.6, platform major v3.0.0 announced 2024-09-01'
+status_page: null
+status_page_note: status.luthersystems.com -> NXDOMAIN; no status link on luthersystems.com, docs, or the agent hosts.
+sla: null
+sla_note: AgentSearch describes itself as "best-effort"; InsideOut publishes no SLA; the enterprise platform is contract-based (sales call).
+deprecation_policy: null
+deprecation_policy_note: None published. Observed practice — GitHub repos archived (substratecommon, shiroclient-sdk-java, substrateplugin, blockchain-explorer) or described DEPRECATED (pushproxng); the legacy A2A path /.well-known/agent.json still serves an older AgentSearch card.
+sunset_headers: not documented
+deprecated_operations: []
+deprecated_artifacts:
+- name: shiroclient-sdk-java
+  status: archived 2023-06-22
+  successor: shiroclient-sdk-go
+- name: pushproxng
+  status: DEPRECATED (repo description)
+- name: AgentSearch legacy agent card at /.well-known/agent.json
+  status: superseded by /.well-known/agent-card.json (protocolVersion 0.3.0) but still served
+breaking_changes:
+- date: '2024-09-01'
+  version: platform v3.0.0
+  summary: Transaction simulation key-access limits and a new deployment method for business logic; migration guidance in announcements.md.

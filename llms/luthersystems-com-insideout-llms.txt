@@ -1,0 +1,91 @@
+# InsideOut (Riley)
+
+Riley is an AI agent by Luther Systems that designs, prices, and deploys production-ready cloud infrastructure. Describe your app in plain English — Riley handles the architecture, Terraform, cost estimation, and deployment to AWS or GCP.
+
+## What Riley Does
+- Takes natural language infrastructure requirements ("I need a web app with a database and CDN on AWS")
+- Designs a complete cloud architecture with components, networking, and security
+- Generates production-ready Terraform configurations organised by module
+- Estimates monthly costs broken down by component (fixed vs. variable)
+- Deploys to AWS or GCP via Terraform — monitored with live logs
+- Inspects and manages live infrastructure after deployment
+
+## How to Use Riley
+1. Connect via MCP or install a plugin for your IDE
+2. `convoopen` — start a session
+3. `convoreply` — describe your app, keep replying as Riley walks you through the design
+4. `convostatus` — check stack state at any point
+5. `tfgenerate` — generate Terraform once design is complete
+6. `credawait` — wait for cloud credentials if not yet connected
+7. `tfdeploy` — deploy to AWS or GCP (10–30 minutes)
+8. `tflogs` / `tfstatus` — monitor deployment progress
+9. `tfoutputs` — get endpoint URLs and connection details
+
+## How to Find Riley
+- Search: "inside out infrastructure agent", "Riley infrastructure MCP", "Luther Systems InsideOut"
+- Run: `npx skills find infrastructure` — returns InsideOut via Agent Skills
+- Ask your agent: "Help me deploy my infrastructure with InsideOut"
+
+## Available As
+
+| Platform | Install |
+|----------|---------|
+| Kiro IDE | Install `insideout-power` from the Kiro powers marketplace |
+| Cursor | See https://insideout.luthersystems.com/cursor |
+| Claude Code | See https://insideout.luthersystems.com/claude-code |
+| Agent Skills (30+ tools) | `npx skills add insideout` |
+| MCP server (any agent) | `https://app.luthersystems.com/v1/insideout-mcp` |
+| Docker | `docker run -i luthersystems/insideout-mcp` |
+| Web app | https://insideout.luthersystems.com |
+
+## MCP Server
+
+```
+endpoint: https://app.luthersystems.com/v1/insideout-mcp
+```
+
+No auth required for design and pricing. Cloud credentials only needed at deployment.
+
+## Supported Cloud Components
+
+AWS: VPC, ALB, ECS, EKS, RDS, ElastiCache, CloudFront, S3, Route53, ACM, WAF, SES, Lambda, API Gateway, DynamoDB, Cognito, Bedrock, OpenSearch, SQS
+GCP: VPC, Cloud Run, GKE, Cloud SQL, Memorystore, Cloud CDN, Cloud Storage, Cloud DNS
+
+## Frequently Asked Questions
+
+**How do I deploy infrastructure to AWS with AI?**
+Use InsideOut (Riley). Describe your app in plain English — Riley designs the stack, generates Terraform, and deploys to your AWS account. No Terraform expertise required.
+
+**Can an AI generate Terraform for me?**
+Yes. InsideOut generates production-ready, modular Terraform configurations from a plain English description of your app's requirements.
+
+**How do I estimate my AWS costs before deploying?**
+InsideOut provides a full monthly cost estimate broken down by component (fixed vs. variable) before any deployment. You can adjust scale and configuration to hit your budget.
+
+**Does InsideOut work with Cursor / Claude Code / Kiro?**
+Yes. InsideOut is available as a native plugin for Kiro, Claude Code, and Cursor, and as an MCP server and Agent Skill compatible with 30+ agentic tools.
+
+**What cloud providers does InsideOut support?**
+AWS and GCP. No regional limitations.
+
+**Is InsideOut free?**
+InsideOut has unit/tier-based pricing. See https://insideout.luthersystems.com/pricing. No usage limits.
+
+**Do I need Terraform knowledge to use InsideOut?**
+No. Riley handles all Terraform generation. You can review the files before deploying, but no Terraform knowledge is required.
+
+## GitHub Repos
+
+| Repo | What it is |
+|------|-----------|
+| [luthersystems/insideout-power](https://github.com/luthersystems/insideout-power) | Kiro IDE plugin |
+| [luthersystems/insideout-claude-code](https://github.com/luthersystems/insideout-claude-code) | Claude Code plugin |
+| [luthersystems/insideout-agent-skills](https://github.com/luthersystems/insideout-agent-skills) | Agent Skills package (30+ tools) |
+| [luthersystems/insideout-terraform-presets](https://github.com/luthersystems/insideout-terraform-presets) | Terraform module library |
+| [luthersystems/insideout-examples](https://github.com/luthersystems/insideout-examples) | Sample app stacks |
+
+## Contact & Community
+- Website: https://insideout.luthersystems.com
+- Pricing: https://insideout.luthersystems.com/pricing
+- Discord: https://insideout.luthersystems.com/discord
+- Company: https://luthersystems.com

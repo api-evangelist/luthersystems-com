@@ -1,0 +1,37 @@
+generated: '2026-09-19'
+method: searched
+source: https://agentsearch.luthersystems.com/.well-known/agent-card.json
+also:
+- https://agentsearch.luthersystems.com/api-docs
+- https://insideout.luthersystems.com/llms.txt
+- https://insideout.luthersystems.com/pricing
+- https://www.luthersystems.com/platform/consumption-estimate
+- https://github.com/luthersystems/docs/blob/main/onboarding/hosting-costs.md
+description: >-
+  Three products, three pricing postures, and only one of them is machine-readable. AgentSearch is free
+  with no tiers (card pricing.model "free"; api-docs "Everything is public, no auth"). InsideOut has
+  "unit/tier-based pricing" with "no usage limits" per its llms.txt and a subscription is required before
+  deployment (credawait), but https://insideout.luthersystems.com/pricing is a client-rendered SPA whose
+  served HTML is a 2,637-byte shell, so no tier names or prices could be read. The enterprise Luther
+  Platform publishes a consumption ESTIMATOR (cores = orgs x peers x cores-per-peer, process-run bands
+  1,000–5,000,000) and an AWS hosting-cost method (~GBP 96/month fixed baseline plus variable) but no
+  price list; commercial terms are by sales call.
+plan_count: 1
+currency: null
+plans:
+- name: AgentSearch — free
+  product: AgentSearch
+  price: 0
+  currency: null
+  billing_period: null
+  included_quota: unlimited (best-effort ~60 requests/minute/IP)
+  overage: null
+  limits: [no auth, per-IP best-effort rate limit, read-only]
+  source: https://agentsearch.luthersystems.com/.well-known/agent-card.json
+unpublished:
+- product: InsideOut (Riley)
+  note: 'llms.txt: "unit/tier-based pricing ... No usage limits"; design and pricing tools free without an account; deployment requires signing up and subscribing to a Luther Systems plan (credawait). Pricing page is JS-rendered; tiers not readable.'
+  url: https://insideout.luthersystems.com/pricing
+- product: Luther Platform (enterprise)
+  note: Consumption estimator publishes core counts, not prices; hosting-costs.md gives an AWS baseline of approximately GBP 96/month plus variable compute/storage; contact sales for commercial terms.
+  url: https://www.luthersystems.com/platform/consumption-estimate

@@ -1,0 +1,111 @@
+generated: '2026-09-19'
+method: searched
+description: >-
+  Results of probing the /.well-known/ discovery surface on every host this record knows — the apex
+  luthersystems.com (which 307s every path to www), www.luthersystems.com, docs.luthersystems.com, the
+  AgentSearch host (OpenAPI servers[] + MCP + A2A host), insideout.luthersystems.com (A2A host),
+  enterprise.luthersystems.com, app.luthersystems.com (InsideOut MCP host) and dev.luthersystems.com (the
+  vanity host the docs' contact page links). Status is the HTTP code observed on 2026-09-19. The only real
+  /.well-known/ documents are the two A2A agent cards (agentsearch., insideout., mirrored on app.), saved
+  under a2a/ and graded in a2a/luthersystems-com-a2a.yml. No security.txt, OIDC, OAuth (RFC 8414 / RFC
+  9728), api-catalog or ai-plugin.json exists on any host — consistent with three MCP servers that use no
+  authorization server. Two hosts (insideout., enterprise.) answer 200 text/html for root /security.txt and
+  /llms.txt because they are Vite SPAs with a catch-all; those are recorded as misses. The per-product
+  llms.txt files live at the root, not under /.well-known/, and are indexed in llms/.
+hosts:
+- host: https://luthersystems.com
+  note: Apex 307s every path to https://www.luthersystems.com (Vercel); probed results are the www ones below.
+  documents:
+  - {path: /.well-known/security.txt, status: 307}
+  - {path: /.well-known/openid-configuration, status: 307}
+  - {path: /.well-known/oauth-authorization-server, status: 307}
+  - {path: /.well-known/oauth-protected-resource, status: 307}
+  - {path: /.well-known/api-catalog, status: 307}
+  - {path: /.well-known/ai-plugin.json, status: 307}
+  - {path: /.well-known/mcp.json, status: 307}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://www.luthersystems.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /security.txt, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://docs.luthersystems.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://agentsearch.luthersystems.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, type: application/json, file: ../a2a/luthersystems-com-agent-card.json, note: 'A2A 0.3.0 card, 5 skills; graded near-conformant in a2a/luthersystems-com-a2a.yml.'}
+  - {path: /.well-known/agent.json, status: 200, type: application/json, file: ../a2a/luthersystems-com-agentsearch-legacy-agent.json, note: 'Legacy path; a DIFFERENT, older card (capabilities as an array, no protocolVersion).'}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+  - {path: /.well-known/luthersystems-com-negative-control-7f3a9c1e.json, status: 404, note: Negative control — not a catch-all.}
+  - {path: /llms.txt, status: 200, type: text/plain, file: ../llms/luthersystems-com-llms.txt, note: 'Root-level, not /.well-known/. Provider-authored llms.txt.'}
+  - {path: /openapi.json, status: 200, type: application/json, file: ../openapi/_original/luthersystems-com-agentsearch-openapi.json}
+  - {path: /robots.txt, status: 200, type: text/plain, note: 'Allow: / for all agents; explicit Allow for GPTBot, ClaudeBot, anthropic-ai, PerplexityBot, Google-Extended, OAI-SearchBot, CCBot, cohere-ai; Sitemap declared but /sitemap.xml 404s.'}
+  - {path: /security.txt, status: 404}
+- host: https://insideout.luthersystems.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, type: application/json, file: ../a2a/luthersystems-com-insideout-agent-card.json, note: 'A2A 0.3 card, 1 skill; graded conformant.'}
+  - {path: /.well-known/agent.json, status: 200, type: application/json, note: Byte-identical to the canonical card.}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+  - {path: /.well-known/luthersystems-com-negative-control-7f3a9c1e.json, status: 404, note: Negative control.}
+  - {path: /llms.txt, status: 200, type: text/plain, file: ../llms/luthersystems-com-insideout-llms.txt, note: Root-level provider-authored llms.txt for InsideOut (Riley).}
+  - {path: /security.txt, status: 200, type: text/html, note: 'SPA catch-all shell (2,637 bytes of the Vite index.html) — NOT a document; treated as a miss.'}
+  - {path: /openapi.json, status: 200, type: text/html, note: SPA shell — no OpenAPI on this host.}
+- host: https://app.luthersystems.com
+  note: InsideOut MCP host (https://app.luthersystems.com/v1/insideout-mcp) — probed per RFC 9728 for protected-resource metadata; none exists.
+  documents:
+  - {path: /.well-known/agent-card.json, status: 200, type: application/json, note: Same 3,635-byte InsideOut card as insideout.luthersystems.com.}
+  - {path: /.well-known/agent.json, status: 200, type: application/json, note: Same body.}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+  - {path: /.well-known/luthersystems-com-negative-control-7f3a9c1e.json, status: 404, note: Negative control.}
+  - {path: /llms.txt, status: 404}
+  - {path: /security.txt, status: 404}
+- host: https://enterprise.luthersystems.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/mcp.json, status: 404}
+  - {path: /llms.txt, status: 200, type: text/html, note: SPA catch-all shell — not a document; miss.}
+  - {path: /security.txt, status: 200, type: text/html, note: SPA catch-all shell — not a document; miss.}
+- host: https://dev.luthersystems.com
+  documents:
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /discord, status: 404, note: The docs contact page links dev.luthersystems.com/discord, /general-call, /tech-call, /sales-call; all 404 — the live vanity links are on insideout.luthersystems.com.}

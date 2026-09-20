@@ -1,0 +1,74 @@
+generated: '2026-09-19'
+method: derived
+source: >-
+  Derived by binding the LIVE hosted MCP tools/list of AgentSearch (mcp/luthersystems-com-agentsearch-mcp-tools.json,
+  probed 2026-09-19, 5 tools with inputSchemas) to the provider's OpenAPI 3.1 at
+  openapi/luthersystems-com-agentsearch-openapi.yml (fetched from https://agentsearch.luthersystems.com/openapi.json).
+  The published spec declares no operationIds; the ids used here were assigned by API Evangelist in the refined
+  copy and in overlays/luthersystems-com-agentsearch-overlay.yaml. The InsideOut MCP server (24 tools) has NO
+  public REST/OpenAPI counterpart, so it is recorded under mcp_only rather than mapped.
+purpose: >-
+  Make each AgentSearch MCP tool a first-class discovery unit bound to the REST operation that backs it. The
+  provider states the relationship itself — the OpenAPI info.description says the HTTP API "mirrors the
+  @luthersystems/agentsearch MCP server" — and the tool names, parameters and the skill ids on the A2A card
+  (search, agent_details, found_agent, browse, stats) are identical across all three surfaces.
+surfaces:
+  rest_openapi: openapi/luthersystems-com-agentsearch-openapi.yml (6 ops, servers[] https://agentsearch.luthersystems.com)
+  mcp_hosted: https://agentsearch.luthersystems.com/api/mcp — tools/list open (no auth), 5 tools
+  mcp_stdio: '@luthersystems/agentsearch (npm 0.1.2) — same 5 tools per README/api-docs; not executed'
+  a2a: https://agentsearch.luthersystems.com/api/a2a — JSON-RPC; five skills with the same ids as the tools
+  insideout_mcp: https://app.luthersystems.com/v1/insideout-mcp — tools/list open, 24 tools; no public OpenAPI
+  graphql: null
+crosswalk:
+- tool: search
+  category: search
+  rest: [searchAgents]
+  binding: rest
+  confidence: high
+  note: POST /api/search body {query, limit} == tool inputSchema {query (required), limit (default 10)}. A2A skill id search.
+- tool: agent_details
+  category: read
+  rest: [getAgent]
+  binding: rest
+  confidence: high
+  note: GET /api/agent/{name}; the only spec'd non-2xx is 404 "Agent not in index". A2A skill id agent_details.
+- tool: found_agent
+  category: scoring
+  rest: [scoreFoundAgent]
+  binding: rest
+  confidence: high
+  note: POST /api/found-agent body {url, name?, query?} == tool inputSchema. Does NOT add to the index; POST /api/submit-agent does, and that endpoint is documented on /api-docs but absent from both the OpenAPI and the tool list.
+- tool: browse
+  category: index
+  rest: [browseAgents]
+  binding: rest
+  confidence: high
+  note: GET /api/browse?page=&page_size= (default page_size 100 per llms.txt).
+- tool: stats
+  category: index
+  rest: [getStats]
+  binding: rest
+  confidence: high
+mcp_only:
+- tool: 'insideout: convoopen, convoreply, convoawait, convostatus, convoinspect, tfgenerate, tfplan, tfdeploy, tfdestroy, tfdrift, tfstatus, tflogs, tfoutputs, tfruns, stackversions, stackdiff, stackrollback, awsinspect, awsinspect_batch, gcpinspect, gcpinspect_batch, credawait, submit_feedback, help'
+  reason: >-
+    The InsideOut (Riley) server at app.luthersystems.com/v1/insideout-mcp is MCP-native — its tools drive a
+    session-scoped conversation and Terraform jobs and no public REST/OpenAPI description of that surface
+    exists (the tool descriptions mention an internal "Oracle" destroy endpoint). Schemas are the live
+    inputSchemas in mcp/luthersystems-com-insideout-mcp-tools.json.
+- tool: 'shirotester: hover, definition, references, diagnostics, call_graph, hotspots, perf_issues, eval, test, doc, format, lint, workspace_symbols, document_symbols, describe_server'
+  reason: Local stdio developer toolkit operating on files in the user's workspace; no network API behind it.
+rest_only:
+- capability: discovery
+  operations: [getAgentCard]
+  note: GET /.well-known/agent.json — the A2A card; an MCP client has no reason to call it.
+- capability: index-write (undocumented in spec)
+  operations: []
+  note: POST /api/submit-agent is documented on /api-docs (and answers a GET with its own schema hint) but is in neither the OpenAPI nor the MCP tool list.
+coverage:
+  tools_named: 5
+  tools_bound: 5
+  mcp_only_servers: 2
+  mcp_only_tools: 39
+  rest_ops_total: 6
+  rest_ops_with_tool: 5

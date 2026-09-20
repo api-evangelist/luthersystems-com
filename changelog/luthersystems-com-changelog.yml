@@ -1,0 +1,85 @@
+generated: '2026-09-19'
+method: searched
+source: https://github.com/luthersystems/docs/blob/main/release-notes.md
+also:
+- https://github.com/luthersystems/docs/blob/main/announcements.md
+- https://registry.npmjs.org/@luthersystems%2Fagentsearch (version history)
+- https://registry.npmjs.org/@luthersystems%2Finsideout-mcp
+- https://registry.npmjs.org/@luthersystems%2Fshirotester
+description: >-
+  The Luther Enterprise platform keeps a dated, per-component release log (substrate, connectorhub,
+  shiroclient, LutherAuth, migrations) in the public docs repository, plus a long-form breaking-change
+  announcement for platform v3.0.0 (2024-09-01). The agent products carry no changelog page: AgentSearch's
+  history is its npm version list (0.1.0 -> 0.1.2, all 2026-05-21) and InsideOut's is the npm/Docker
+  release stream (insideout-mcp 0.50.1 on 2026-05-31; Docker image rebuilt 2026-08-26; MCP server reports
+  v2.0.0). No changelog exists on luthersystems.com itself.
+scheme: per-component semver (substrate v2.x, LutherAuth v4.x) with ISO dates; platform-wide major announced separately
+current:
+  substrate: v2.205.13 (2025-06-24, per release-notes.md; npm shirotester 2.236.0 on 2026-09-01 implies later builds not logged there)
+  lutherauth: v4.7.6 (2024-11-26)
+  agentsearch_mcp: 0.1.2 (2026-05-21)
+  insideout_mcp_server: v2.0.0 (live initialize, 2026-09-19); npm 0.50.1 (2026-05-31)
+entries:
+- date: '2026-09-01'
+  component: shirotester (npm)
+  version: 2.236.0
+  breaking: false
+  highlights: [Latest of 18 npm releases since 2026-04-15]
+  source: https://www.npmjs.com/package/@luthersystems/shirotester
+- date: '2026-08-26'
+  component: insideout-mcp (Docker)
+  version: latest / main-42d2d7a8
+  breaking: false
+  highlights: [Image rebuilt with SBOM attestations]
+  source: https://hub.docker.com/r/luthersystems/insideout-mcp/tags
+- date: '2026-05-31'
+  component: '@luthersystems/insideout-mcp'
+  version: 0.50.1
+  breaking: false
+  highlights: [First npm publication of the stdio InsideOut MCP server (3 versions same day)]
+- date: '2026-05-21'
+  component: '@luthersystems/agentsearch'
+  version: 0.1.2
+  breaking: false
+  highlights: [Initial npm releases 0.1.0, 0.1.1, 0.1.2 via trusted publishing]
+- date: '2025-06-24'
+  component: substrate
+  version: v2.205.13
+  breaking: false
+  highlights: [Add general mock settings, 'connectorhub: Add Luther connectors']
+- date: '2025-06-23'
+  component: substrate
+  version: v2.205.12
+  breaking: false
+  highlights: ['connectorhub: Fix connectorhub protos and add rich connector annotations', 'connectorhub: Add remaining connector annotations, enums, categories, icons and logos', 'substrate: shirotester unit-test race / memory-leak fixes']
+- date: '2025-04-29'
+  component: substrate
+  version: v2.205.10
+  breaking: false
+  highlights: [Do not create profiler when no trace, 'connectorhub: Add unimplemented connectors']
+- date: '2025-03-31'
+  component: substrate
+  version: v2.205.9
+  breaking: false
+  highlights: [Add dynamic elps filtering option, 'connectorhub: Add ability to test connector connection']
+- date: '2025-03-21'
+  component: substrate
+  version: v2.205.8
+  breaking: false
+  highlights: [Upgrade x/net dependencies, Add range query pagination, 'migrations: Add ctx migration support']
+- date: '2025-02-14'
+  component: substrate
+  version: v2.205.7
+  breaking: false
+  highlights: [Disable write polling by default, 'connectorhub: Add connector lib']
+- date: '2024-11-26'
+  component: LutherAuth
+  version: v4.7.6
+  breaking: false
+  highlights: [Support Auth0, Fix open redirect vulnerability via AUTH_OAUTH_VALID_FRONTEND_REDIRECT_URLS / AUTH_OAUTH_VALID_CALLBACK_URLS, Support frontend_redirect_url on /v1/auth/oauth_login]
+- date: '2024-09-01'
+  component: platform
+  version: v3.0.0
+  breaking: true
+  highlights: [Transaction simulation key-access limits, New deployment method for business logic]
+  source: https://github.com/luthersystems/docs/blob/main/announcements.md

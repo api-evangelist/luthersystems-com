@@ -1,0 +1,43 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://www.luthersystems.com/privacy-policy (Effective/Last Updated December 16, 2025),
+  https://www.luthersystems.com/cookie-policy, the SECURITY.md files in github.com/luthersystems/
+  insideout-agent-skills and substrate-agent-skills, https://github.com/luthersystems/docs
+  (release-notes.md, announcements.md), the Docker Hub tag list for luthersystems/insideout-mcp, and
+  live probes of /accessibility, /accessibility/vpat, /legal/subprocessors, /legal/dpa,
+  /privacy/requests, /transparency, /security/sbom, /docs/data-residency, /ai/transparency and
+  /legal/report-content on www.luthersystems.com (all 404 — the Next.js site returns its 404 page).
+description: >-
+  Harvest only — no regime is inferred here. Luther Systems publishes a dated privacy policy covering
+  its US and UK entities with a named access/correction/deletion channel and an opt-out choice, a cookie
+  policy, and repository-level security disclosure. The InsideOut SECURITY.md documents what data the
+  hosted MCP server does and does not receive (no credentials, source code, secrets or PII) and the
+  Docker image carries SBOM attestations as tags, but no SBOM document is published for download and
+  nothing else in the horizontal layer (accessibility conformance, subprocessor list, DPA, data
+  residency, transparency report, AI transparency statement, support lifetime) was found. The privacy
+  policy's language ("processed in violation of the Principles", FTC enforcement) reads as an EU-US Data
+  Privacy Framework self-certification, which is recorded as a note and not as a verified certification.
+signals:
+  data_subject_request:
+    present: true
+    url: https://www.luthersystems.com/privacy-policy
+    contact: mailto:privacy@luthersystems.com
+    rights: [access, correction, deletion, opt-out of third-party disclosure or materially different use]
+    evidence: '"7. Your Rights and Choices — Access, Correction, and Deletion ... To make a request, please contact us at privacy@luthersystems.com."'
+    pointer_type: DataSubjectRequest
+  incident_notification:
+    present: false
+    note: security@luthersystems.com is a reporting channel for researchers, not a customer-notification commitment; no incident SLA is stated.
+  sbom:
+    present: false
+    note: 'Docker Hub tags sha256-*.sbom exist on luthersystems/insideout-mcp (attestations attached to the image) but no SBOM document, format (SPDX/CycloneDX) or download is published; not recorded as an SBOM signal per the search-only rule.'
+notes:
+- 'Privacy policy names two legal entities: Luther Systems US Incorporated and Luther Systems Limited (UK); offices in London EC1Y 1AA and Campbell, CA 95008.'
+- 'Global Privacy Control: no statement found; not tested by header per the rule.'
+- 'The InsideOut skill repos run a Snyk agent scan workflow and state that scanners may flag the remote-MCP pattern; that is a security-posture statement, not a product-security regulatory signal.'
+x-probed:
+- {url: 'https://www.luthersystems.com/privacy-policy', status: 200}
+- {url: 'https://www.luthersystems.com/cookie-policy', status: 200}
+- {url: 'https://www.luthersystems.com/terms', status: 404}
+- {url: 'https://www.luthersystems.com/terms-of-service', status: 404}

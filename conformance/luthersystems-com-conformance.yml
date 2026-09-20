@@ -1,0 +1,74 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live probes on 2026-09-19 of the MCP endpoints (initialize/tools/list), the A2A endpoints (agent/getCard,
+  tasks/get) and the agent cards, plus the published OpenAPI and the provider's docs. Entries marked
+  searched come from provider text; nothing is asserted from marketing copy alone.
+description: >-
+  Luther Systems' public API surface is agent-native, and the standards it conforms to are the agent
+  protocols themselves: two hosted MCP servers speaking protocol version 2025-06-18 over Streamable HTTP,
+  two A2A agent cards (0.3.0 / 0.3) at the RFC 8615 canonical path backed by JSON-RPC 2.0 responders, an
+  OpenAPI 3.1.0 document, and Agent Skills in the agentskills.io SKILL.md format. There is no OAuth 2.0,
+  OIDC, SCIM, JSON:API or RFC 9457 anywhere on the public surface (no authorization server exists), and no
+  sector standard applies to an agent-discovery / cloud-infrastructure-agent market beyond A2A and MCP,
+  which ARE this market's domain standards and are recorded as such.
+conformance:
+- id: mcp
+  standard: Model Context Protocol 2025-06-18 (Streamable HTTP)
+  conforms: true
+  evidence: POST https://agentsearch.luthersystems.com/api/mcp initialize -> 200 {protocolVersion 2025-06-18, serverInfo agentsearch 0.1.0}; tools/list -> 5 tools with JSON-Schema inputSchema. POST https://app.luthersystems.com/v1/insideout-mcp initialize -> 200 SSE {protocolVersion 2025-06-18, serverInfo insideout-agent v2.0.0, Mcp-Session-Id}; tools/list -> 24 tools; prompts/list -> 1 prompt.
+  scope: agentsearch (no session header), insideout (session header; requires Accept application/json + text/event-stream)
+  domain_standard: true
+- id: a2a
+  standard: Agent2Agent protocol 0.3.x (agent card + JSON-RPC binding)
+  conforms: true
+  evidence: https://agentsearch.luthersystems.com/.well-known/agent-card.json 200 (protocolVersion 0.3.0, capabilities object, skills array; near-conformant — no preferredTransport); https://insideout.luthersystems.com/.well-known/agent-card.json 200 (protocolVersion 0.3, preferredTransport JSONRPC; conformant). agent/getCard answered at /api/a2a; InsideOut endpoint returns a2a-protocol.org ErrorInfo details. Graded in a2a/luthersystems-com-a2a.yml.
+  domain_standard: true
+- id: rfc8615-well-known
+  standard: RFC 8615 well-known URIs
+  conforms: true
+  evidence: Agent cards served at /.well-known/agent-card.json on agentsearch., insideout. and app. hosts; negative-control paths 404.
+- id: jsonrpc2
+  standard: JSON-RPC 2.0
+  conforms: true
+  evidence: Both MCP servers and both A2A endpoints answer with {"jsonrpc":"2.0","id":...} envelopes; InsideOut returns -32600/-32601/-32602 with structured data on bad requests; AgentSearch A2A answers agent/getCard and tasks/get.
+- id: openapi-3.1
+  standard: OpenAPI 3.1.0
+  conforms: true
+  evidence: https://agentsearch.luthersystems.com/openapi.json -> openapi 3.1.0, 6 paths, 4 component schemas, servers[] https://agentsearch.luthersystems.com. Saved verbatim in openapi/_original/. No operationIds or tags in the published document.
+  method: searched
+- id: agent-skills
+  standard: Agent Skills (agentskills.io SKILL.md with name/description frontmatter)
+  conforms: true
+  evidence: https://github.com/luthersystems/insideout-agent-skills/blob/main/SKILL.md (name insideout, version 1.1.0) and https://github.com/luthersystems/substrate-agent-skills/blob/main/SKILL.md (name substrate, version 1.0.0); installable via npx skills add; listed on skills.sh (HTTP 200).
+  method: searched
+- id: llms-txt
+  standard: llms.txt
+  conforms: true
+  evidence: https://agentsearch.luthersystems.com/llms.txt 200 text/plain (1,829 bytes) and https://insideout.luthersystems.com/llms.txt 200 text/plain (4,673 bytes), both provider-authored with H1/blockquote/link-list structure.
+- id: grpc-protobuf
+  standard: Protocol Buffers 3 / gRPC (Buf-managed module)
+  conforms: true
+  evidence: https://github.com/luthersystems/protos — buf.yaml v2 module buf.build/luthersystems/protos (BSR page 200); pdfserv/v1/service.proto declares service PDFService { rpc Generate }; connectorhub/connectors/v1 carries 80 connector configuration message schemas; grpc-gateway REST transcoding used in the sandbox starter kit. Saved verbatim in grpc/luthersystems-protos/.
+  method: searched
+- id: oauth2
+  standard: OAuth 2.0 / RFC 8414 / RFC 9728
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource 404 on luthersystems.com, www, docs, agentsearch, insideout, enterprise and app hosts. No public surface uses OAuth; InsideOut's cloud-credential step is the cloud provider's own browser OAuth, not Luther's.
+- id: oidc
+  standard: OpenID Connect Discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on every host. LutherAuth (the enterprise platform's identity service) is documented as RS256 JWT + external OIDC IdPs (Cognito, AzureAD, Auth0) but is customer-deployed, not a public endpoint.
+- id: rfc9457
+  standard: RFC 9457 Problem Details
+  conforms: false
+  evidence: OpenAPI declares no application/problem+json; JSON-RPC error envelopes are used on the agent surfaces. See errors/luthersystems-com-problem-types.yml.
+- id: rfc9116-security-txt
+  standard: RFC 9116 security.txt
+  conforms: false
+  evidence: /.well-known/security.txt 404 (or SPA shell) on every host; disclosure contact is published in repository SECURITY.md files instead.
+- id: pagination
+  standard: page / page_size offset pagination
+  conforms: true
+  evidence: GET /api/browse?page=&page_size= (openapi) and the MCP browse tool {page, page_size}; tflogs uses last_event_id / tail cursoring on the InsideOut server.
+  method: searched

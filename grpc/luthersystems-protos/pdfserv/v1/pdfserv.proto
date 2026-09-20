@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package pdfserv.v1;
+
+option go_package = "buf.build/gen/go/luthersystems/protos/protocolbuffers/go/pdfserv/v1";
+
+import "common/v1/exception.proto";
+
+// Generate a PDF by passing base64 bytes of an html document.
+message GenerateRequest {
+  // The base64 string of the html to render as PDF.
+  string html_base64 = 1;
+}
+
+// Response to PDF generation.
+message GenerateResponse {
+  // An exception if an error occurred during processing request.
+  common.v1.Exception exception = 1;
+  // Base64 encoded PDF generated from the request.
+  string pdf_base64 = 2;
+}

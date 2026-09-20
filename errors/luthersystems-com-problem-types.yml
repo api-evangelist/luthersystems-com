@@ -1,0 +1,68 @@
+generated: '2026-09-19'
+method: derived
+source: >-
+  Derived from openapi/luthersystems-com-agentsearch-openapi.yml (4xx/5xx responses) and from live JSON-RPC
+  error envelopes observed on 2026-09-19 at https://agentsearch.luthersystems.com/api/mcp,
+  https://app.luthersystems.com/v1/insideout-mcp and https://insideout.luthersystems.com/insideout-a2a/v0/,
+  enriched with the error names the InsideOut tool descriptions document (tf_job_conflict, auth_required,
+  no_credentials, credentials_expired). No error reference page exists on the docs site.
+format: json (JSON-RPC 2.0 error envelopes on the agent surfaces; plain JSON on the HTTP API). Not RFC 9457.
+description: >-
+  The AgentSearch OpenAPI declares exactly one non-2xx response — 404 on GET /api/agent/{name} — and no
+  error schema; every other HTTP failure is undocumented. The agent surfaces use JSON-RPC 2.0 error
+  objects: InsideOut's A2A endpoint attaches google.rpc.ErrorInfo details with domain a2a-protocol.org
+  and a reason code, and its MCP server names application-level error codes inside tool descriptions.
+problem_types:
+- code: '404'
+  surface: http (AgentSearch)
+  operation: getAgent
+  title: Agent not in index
+  detail: The exact indexed name was not found. Names are GitHub-style owner/repo strings and must be URL-encoded (upstash%2Fcontext7).
+  remediation: Search first (searchAgents / browseAgents) to obtain the exact name, or live-score the URL with scoreFoundAgent.
+  documented: true
+- code: '400'
+  surface: mcp (InsideOut)
+  title: Accept must contain both 'application/json' and 'text/event-stream'
+  detail: Plain-text 400 returned when the Accept header does not list both media types (observed live).
+  remediation: Send Accept application/json, text/event-stream on every POST; reuse the Mcp-Session-Id from initialize.
+  documented: false
+- code: '405'
+  surface: mcp (InsideOut)
+  title: Method Not Allowed
+  detail: GET on https://app.luthersystems.com/v1/insideout-mcp; the endpoint is POST-only.
+  documented: false
+- code: -32600
+  surface: a2a (InsideOut)
+  title: INVALID_REQUEST
+  detail: 'Returned for a GET or a malformed body, with data [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","domain":"a2a-protocol.org","reason":"INVALID_REQUEST"}].'
+  documented: false
+- code: -32601
+  surface: a2a (InsideOut)
+  title: METHOD_NOT_FOUND
+  detail: agent/getCard is not implemented on either InsideOut endpoint (v0 and 1.0 paths).
+  documented: false
+- code: -32602
+  surface: a2a (InsideOut)
+  title: INVALID_PARAMS — X-A2A-Task-Secret header is required
+  detail: tasks/get on the v0 endpoint requires a per-task secret header that the agent card's securitySchemes do not declare.
+  documented: false
+- code: tf_job_conflict
+  surface: mcp (InsideOut)
+  operation: tfdeploy / tfplan / tfdestroy / tfdrift
+  title: Another Terraform job is in flight for this session
+  detail: Single-flight rule — one apply/plan/destroy/drift job per session; the error carries the live job_id.
+  remediation: Attach with tfstatus/tflogs instead of retrying, or pass force_new=true to override.
+  documented: true
+- code: auth_required / no_credentials / credentials_expired
+  surface: mcp (InsideOut)
+  operation: tfdeploy
+  title: Cloud credentials not connected
+  detail: Deployment needs the user to connect AWS/GCP credentials in a browser and subscribe to a Luther Systems plan.
+  remediation: Call credawait and give the user the connect URL; do not pass credentials through the agent.
+  documented: true
+- code: quirk
+  surface: a2a (AgentSearch)
+  operation: tasks/get
+  title: Unknown task id answered as completed
+  detail: 'tasks/get for a nonexistent id returned {"status":{"state":"completed"},"history":[]} instead of TaskNotFoundError (-32001). Recorded as observed behaviour.'
+  documented: false

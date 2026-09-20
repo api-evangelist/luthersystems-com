@@ -1,0 +1,36 @@
+# AgentSearch
+
+> The agent that helps agents find other agents. A daily-scored, curated
+> index of AI agents and MCP servers, searchable by natural-language query
+> and callable as an MCP / A2A / HTTP service.
+
+AgentSearch crawls three sources daily (a2aregistry.org, GitHub topic search,
+punkpeye/awesome-mcp-servers), probes each agent for reachability, then
+scores them on Fame, Usability, Functionality and Call Graph. Search results
+are ranked by `final_score = query_fit × Overall`.
+
+## How to use
+
+- [Search the index](https://agentsearch.luthersystems.com/) — natural-language search box
+- [Browse the index](https://agentsearch.luthersystems.com/browse) — paginated, ranked list of all agents
+- [Per-agent profile](https://agentsearch.luthersystems.com/agent) — `/agent/<name>` for any indexed agent
+- [Index stats](https://agentsearch.luthersystems.com/stats) — distributions, capability clusters, call graph
+
+## Agent-callable surfaces
+
+- [A2A agent card](https://agentsearch.luthersystems.com/.well-known/agent.json) — declares skills, auth, pricing
+- [OpenAPI 3.1 spec](https://agentsearch.luthersystems.com/openapi.json) — HTTP endpoints
+- [MCP server source](https://github.com/luthersystems/agentsearch/tree/main/mcp) — `npx -y @luthersystems/agentsearch`
+- [Methodology](https://agentsearch.luthersystems.com/agent-discovery.pdf) — scoring rubric, weights, rationale
+
+## Endpoints
+
+- `POST /api/search` — `{query, limit?}` → ranked agents
+- `GET  /api/agent/{name}` — full scored profile for one agent
+- `POST /api/found-agent` — `{url, name?, query?}` → live-score any URL
+- `GET  /api/browse?page=&page_size=` — paginated index
+- `GET  /api/stats` — index summary
+
+## Source
+
+[github.com/luthersystems/agentsearch](https://github.com/luthersystems/agentsearch) — MIT licensed.

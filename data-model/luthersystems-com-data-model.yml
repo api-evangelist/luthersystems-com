@@ -1,0 +1,44 @@
+generated: '2026-09-19'
+method: derived
+source: openapi/luthersystems-com-agentsearch-openapi.yml components.schemas (SearchResult, AgentSummary, AgentDetails, Rollup) plus the MCP tool descriptions and docs/methodology.md
+description: >-
+  AgentSearch has one root entity — an indexed Agent — seen through three projections: a ranked SearchResult
+  (per query), a paginated AgentSummary (browse) and the full AgentDetails profile. Identity is the agent
+  `name` as it appears in the index (GitHub-style "owner/repo" for most entries), which is also the path
+  key of GET /api/agent/{name}. No id prefixes are documented. The InsideOut MCP surface has its own
+  session-scoped model (session_id -> stack versions -> Terraform jobs) which is described in tool text
+  only and is summarised here from the live tools/list.
+entities:
+- name: Agent
+  key: name
+  projections: [SearchResult, AgentSummary, AgentDetails]
+  fields: ['name', 'url', 'description', 'capabilities[]', 'sources[]', 'raw{}', 'blocker{status, status_code, speed_ms, eliminated}', 'scores{fame, usability, functionality, call_graph, overall}']
+- name: SearchResult
+  fields: [agent_name, agent_url, query_fit (0..1), overall_score (0..1), final_score (0..1), reasoning]
+- name: Rollup
+  fields: [name, count]
+  note: Used by GET /api/stats for source/license/capability breakdowns.
+- name: InsideOutSession (MCP)
+  key: session_id (sess_v2_...?token=...)
+  fields: ['stack versions (draft/confirmed/applied)', 'Terraform jobs (apply/plan/destroy/drift) with job_id, plan_id, project_id', 'cloud credentials status']
+relationships:
+- from: SearchResult
+  to: Agent
+  type: belongs_to
+  via: agent_name
+- from: AgentSummary
+  to: Agent
+  type: belongs_to
+  via: name
+- from: Agent
+  to: Rollup
+  type: has_many
+  via: 'sources[] / capabilities[] (aggregated by getStats)'
+- from: InsideOutSession
+  to: StackVersion
+  type: has_many
+  via: session_id (stackversions, stackdiff, stackrollback)
+- from: InsideOutSession
+  to: TerraformJob
+  type: has_many
+  via: session_id / job_id (tfruns, tfstatus, tflogs, tfoutputs)

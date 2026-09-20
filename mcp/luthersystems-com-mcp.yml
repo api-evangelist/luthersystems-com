@@ -1,0 +1,173 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://agentsearch.luthersystems.com/api/mcp
+docs: https://agentsearch.luthersystems.com/api-docs
+summary: >-
+  Luther Systems ships THREE provider-built MCP servers and documents each one itself. (1) AgentSearch —
+  a hosted Streamable HTTP endpoint at https://agentsearch.luthersystems.com/api/mcp (protocol version
+  2025-06-18, serverInfo agentsearch 0.1.0, capabilities {tools: {listChanged: false}}) that answered
+  initialize and tools/list anonymously on 2026-09-19 with FIVE read-only tools carrying real inputSchemas
+  (saved verbatim to mcp/luthersystems-com-agentsearch-mcp-tools.json), plus the same five tools as a
+  stdio package, @luthersystems/agentsearch on npm (0.1.2, 2026-05-21, MIT, source
+  github.com/luthersystems/agentsearch/mcp). (2) InsideOut (Riley) — a hosted Streamable HTTP endpoint at
+  https://app.luthersystems.com/v1/insideout-mcp (protocol version 2025-06-18, serverInfo insideout-agent
+  v2.0.0, capabilities logging + prompts + tools with listChanged, session via Mcp-Session-Id, responses as
+  SSE) that answered initialize, tools/list (24 tools with inputSchemas, saved verbatim to
+  mcp/luthersystems-com-insideout-mcp-tools.json) and prompts/list (one prompt, `usage`) anonymously; the
+  same server ships as a stdio package (@luthersystems/insideout-mcp on npm, 0.50.1, 2026-05-31,
+  UNLICENSED) and a Docker image (luthersystems/insideout-mcp, 48k pulls, updated 2026-08-26). Design and
+  pricing tools need no credential; deployment tools require the user to connect cloud credentials in a
+  browser and subscribe (credawait), and every call after convoopen carries a per-session token embedded in
+  the session_id. (3) shirotester — a LOCAL-ONLY stdio MCP server inside the @luthersystems/shirotester CLI
+  (npm 2.236.0, 2026-09-01, Apache-2.0) for Substrate/ELPS development on the Luther Enterprise platform;
+  15 tools are documented, no hosted endpoint exists, and the package was verified on npm but not executed.
+deployment:
+  mode: both
+  endpoint: https://agentsearch.luthersystems.com/api/mcp
+  install: npx -y @luthersystems/agentsearch
+  package: https://www.npmjs.com/package/@luthersystems/agentsearch
+  auth: none
+  verified: probed
+  note: >-
+    This block describes the primary (AgentSearch) server. The InsideOut server is ALSO both (endpoint
+    https://app.luthersystems.com/v1/insideout-mcp; npx -y @luthersystems/insideout-mcp or docker run -i
+    --rm luthersystems/insideout-mcp:latest; auth none for design/pricing, session token + browser cloud
+    connection for deployment). The shirotester server is local-stdio only (npx -y @luthersystems/shirotester
+    mcp --workspace-root .). No OAuth metadata exists on any host — /.well-known/oauth-authorization-server
+    and /oauth-protected-resource 404 on agentsearch., app., insideout. and the apex — because none of the
+    servers uses an authorization server.
+servers:
+- id: agentsearch-hosted
+  name: agentsearch (hosted)
+  endpoint: https://agentsearch.luthersystems.com/api/mcp
+  transport: streamable-http
+  http_methods: [POST]
+  auth: none
+  status: live
+  authorship: provider
+  source_code: https://github.com/luthersystems/agentsearch/tree/main/mcp
+  probe:
+    fetched: '2026-09-19'
+    initialize:
+      http_status: 200
+      content_type: application/json
+      protocol_version: '2025-06-18'
+      server_info: {name: agentsearch, version: 0.1.0}
+      capabilities: {tools: {listChanged: false}}
+      instructions: >-
+        AgentSearch — the agent that helps agents find other agents. Use `search` for natural-language
+        discovery, `agent_details` for one indexed agent, `found_agent` to live-score any URL, `browse` to
+        walk the index, `stats` for the index summary.
+    tools_list:
+      http_status: 200
+      content_type: application/json
+      tool_count: 5
+      file: mcp/luthersystems-com-agentsearch-mcp-tools.json
+  tools:
+  - name: search
+    read_only: true
+    input_schema: {query: 'string (required)', limit: 'integer, default 10'}
+    description: Search the AgentSearch index for AI agents and MCP servers matching a natural-language query. Ranked by final_score = query_fit x agent_quality.
+    source_operation: openapi/luthersystems-com-agentsearch-openapi.yml#searchAgents
+  - name: agent_details
+    read_only: true
+    input_schema: {name: 'string (required) — exact indexed agent name'}
+    description: Full scored profile for one indexed agent — inventory data, layer scores (Fame / Usability / Functionality / Call Graph), reasoning, live blocker status.
+    source_operation: openapi/luthersystems-com-agentsearch-openapi.yml#getAgent
+  - name: found_agent
+    read_only: true
+    input_schema: {url: 'string (required)', name: 'string (optional)', query: 'string (optional)'}
+    description: Live-score an arbitrary agent URL (crawl + probe + LLM-score with the batch rubric). Works for agents not yet in the index.
+    source_operation: openapi/luthersystems-com-agentsearch-openapi.yml#scoreFoundAgent
+  - name: browse
+    read_only: true
+    input_schema: {page: 'integer', page_size: 'integer'}
+    description: Paginated list of every indexed agent, ranked by overall quality.
+    source_operation: openapi/luthersystems-com-agentsearch-openapi.yml#browseAgents
+  - name: stats
+    read_only: true
+    input_schema: {}
+    description: Index-level statistics — totals, source/license breakdown, capability cluster rollups, distributions, call graph.
+    source_operation: openapi/luthersystems-com-agentsearch-openapi.yml#getStats
+- id: agentsearch-stdio
+  name: '@luthersystems/agentsearch (stdio)'
+  transport: stdio
+  install: npx -y @luthersystems/agentsearch
+  package: https://www.npmjs.com/package/@luthersystems/agentsearch
+  version: 0.1.2
+  published: '2026-05-21'
+  license: MIT
+  auth: none
+  status: published
+  authorship: provider
+  note: Same five tools as the hosted endpoint (README and api-docs say so); binary name agentsearch-mcp; releases via npm trusted publishing with provenance attestations. Verified on the registry, not executed.
+- id: insideout-hosted
+  name: insideout-agent (hosted)
+  endpoint: https://app.luthersystems.com/v1/insideout-mcp
+  transport: streamable-http
+  http_methods: [POST]
+  auth: none for design/pricing; per-session token (issued by convoopen, carried in session_id) for the rest; browser-based cloud credential connection + subscription for deployment
+  status: live
+  authorship: provider
+  docs: https://github.com/luthersystems/insideout-agent-skills
+  probe:
+    fetched: '2026-09-19'
+    initialize:
+      http_status: 200
+      content_type: text/event-stream
+      protocol_version: '2025-06-18'
+      server_info: {name: insideout-agent, version: v2.0.0}
+      capabilities: {logging: {}, prompts: {listChanged: true}, tools: {listChanged: true}}
+      session_header: Mcp-Session-Id
+    tools_list:
+      http_status: 200
+      content_type: text/event-stream
+      tool_count: 24
+      file: mcp/luthersystems-com-insideout-mcp-tools.json
+      note: Requires the Accept header to name both application/json and text/event-stream (a 400 otherwise). The 24 live tools match the provider's Docker MCP Registry tools.json one-for-one.
+    prompts_list: {http_status: 200, prompt_count: 1, prompts: [usage]}
+    get_request: {http_status: 405}
+  tool_groups:
+    design_conversation: [convoopen, convoreply, convoawait, convostatus, convoinspect]
+    terraform: [tfgenerate, tfplan, tfdeploy, tfdestroy, tfdrift]
+    monitoring: [tfstatus, tflogs, tfoutputs, tfruns]
+    stack_versions: [stackversions, stackdiff, stackrollback]
+    cloud_inspection: [awsinspect, awsinspect_batch, gcpinspect, gcpinspect_batch]
+    utility: [credawait, submit_feedback, help]
+  registries:
+  - name: Smithery
+    url: https://smithery.ai/servers/luther-systems/insideout
+    config: https://github.com/luthersystems/insideout-agent-skills/blob/main/smithery.yaml
+  - name: Docker MCP Registry
+    config: https://github.com/luthersystems/insideout-agent-skills/tree/main/registry/docker-mcp-registry/insideout-remote
+  - name: Glama
+    config: https://github.com/luthersystems/insideout-agent-skills/blob/main/glama.json
+- id: insideout-stdio
+  name: '@luthersystems/insideout-mcp (stdio) / luthersystems/insideout-mcp (Docker)'
+  transport: stdio
+  install: npx -y @luthersystems/insideout-mcp   # or: docker run -i --rm luthersystems/insideout-mcp:latest
+  package: https://www.npmjs.com/package/@luthersystems/insideout-mcp
+  docker: https://hub.docker.com/r/luthersystems/insideout-mcp
+  version: 0.50.1
+  published: '2026-05-31'
+  docker_last_updated: '2026-08-26'
+  license: UNLICENSED (npm); source repo github.com/luthersystems/insideout-mcp is not public
+  auth: same as hosted
+  status: published
+  authorship: provider
+  note: AGENTS.md calls the Docker image a fallback for stdio-only clients or air-gapped environments and prefers the hosted endpoint. Verified on npm and Docker Hub, not executed.
+- id: shirotester-stdio
+  name: shirotester (Substrate / ELPS development toolkit)
+  transport: stdio
+  install: npx -y @luthersystems/shirotester mcp --workspace-root .
+  package: https://www.npmjs.com/package/@luthersystems/shirotester
+  version: 2.236.0
+  published: '2026-09-01'
+  license: Apache-2.0
+  auth: none
+  status: published
+  authorship: provider
+  docs: https://github.com/luthersystems/substrate-agent-skills
+  documented_tools: [hover, definition, references, diagnostics, call_graph, hotspots, perf_issues, eval, test, doc, format, lint, workspace_symbols, document_symbols, describe_server]
+  note: Local-only; SECURITY.md states it makes no network calls. Source is github.com/luthersystems/substrate, which is not public. Verified on npm, not executed.

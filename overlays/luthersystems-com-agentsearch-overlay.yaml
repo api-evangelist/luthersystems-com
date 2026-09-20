@@ -1,0 +1,42 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for the AgentSearch HTTP API
+  version: 1.0.0
+  description: >-
+    Enhancements API Evangelist applies to the provider-published OpenAPI at
+    https://agentsearch.luthersystems.com/openapi.json (saved verbatim at
+    openapi/_original/luthersystems-com-agentsearch-openapi.json). The published spec declares no
+    operationIds or tags; this overlay assigns them, records the MCP tool and A2A skill each operation
+    backs, and adds externalDocs. The original is never mutated.
+extends: openapi/_original/luthersystems-com-agentsearch-openapi.json
+x-generated: '2026-09-19'
+x-method: generated
+actions:
+- target: $
+  update:
+    externalDocs:
+      description: AgentSearch API & agent surfaces
+      url: https://agentsearch.luthersystems.com/api-docs
+    tags:
+    - {name: Search, description: Natural-language search over the agent index.}
+    - {name: Agents, description: Scored profiles of indexed agents.}
+    - {name: Scoring, description: Live scoring of an arbitrary agent URL.}
+    - {name: Index, description: Browse and summarise the whole index.}
+    - {name: Discovery, description: A2A agent card.}
+- target: $.paths['/api/search'].post
+  update: {operationId: searchAgents, tags: [Search], x-mcp-tool: search, x-a2a-skill: search}
+- target: $.paths['/api/agent/{name}'].get
+  update: {operationId: getAgent, tags: [Agents], x-mcp-tool: agent_details, x-a2a-skill: agent_details}
+- target: $.paths['/api/found-agent'].post
+  update: {operationId: scoreFoundAgent, tags: [Scoring], x-mcp-tool: found_agent, x-a2a-skill: found_agent}
+- target: $.paths['/api/browse'].get
+  update: {operationId: browseAgents, tags: [Index], x-mcp-tool: browse, x-a2a-skill: browse}
+- target: $.paths['/api/stats'].get
+  update: {operationId: getStats, tags: [Index], x-mcp-tool: stats, x-a2a-skill: stats}
+- target: $.paths['/.well-known/agent.json'].get
+  update:
+    operationId: getAgentCard
+    tags: [Discovery]
+    description: >-
+      Legacy A2A discovery path. The canonical /.well-known/agent-card.json on the same host serves a newer,
+      protocolVersion 0.3.0 card; this path serves an older card whose capabilities field is an array.

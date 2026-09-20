@@ -1,0 +1,57 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://github.com/luthersystems/substrate-agent-skills (SKILL.md + llms.txt, the shirotester command
+  list), registry.npmjs.org/@luthersystems%2Fshirotester, https://github.com/luthersystems/mars (README),
+  https://github.com/luthersystems/homebrew-repo/blob/main/Formula/mars.rb and
+  https://github.com/luthersystems/agentsearch/blob/main/mcp/package.json.
+description: >-
+  Luther Systems publishes two first-party command-line tools for its enterprise platform and one
+  MCP-server binary. shirotester is the Substrate/ELPS developer toolkit (npm, Apache-2.0, 18 releases,
+  2.236.0 on 2026-09-01); mars is the infrastructure management tool (Homebrew tap + Docker image + Go
+  module). Neither AgentSearch nor InsideOut has a CLI beyond their MCP-server binaries.
+clis:
+- name: shirotester
+  package: '@luthersystems/shirotester'
+  version: 2.236.0
+  published: '2026-09-01'
+  license: Apache-2.0
+  install:
+  - npx @luthersystems/shirotester <command>
+  - npm install -g @luthersystems/shirotester
+  source: https://github.com/luthersystems/substrate (not public; binary cross-compiled with GitHub OIDC provenance per SECURITY.md)
+  docs: https://github.com/luthersystems/substrate-agent-skills/blob/main/SKILL.md
+  commands:
+    development: [lint, analyze, fmt, doc, repl, debug]
+    testing: [unit-tests, functional-tests]
+    tooling: ['lsp (language server)', 'mcp --workspace-root . (stdio MCP server)', version]
+  key_flows:
+  - Add the MCP server to an AI coding tool — `claude mcp add shirotester -- npx -y @luthersystems/shirotester mcp --workspace-root .`
+  - Lint and format an ELPS phylum before deploying business logic to Substrate
+  - Run the unit and functional test suites with substrate builtin awareness
+  note: Companion VS Code extension LutherSystems.substrate (marketplace page HTTP 200) wraps `shirotester lsp` and `shirotester debug`.
+- name: mars
+  package: luthersystems/repo/mars
+  version: v0.91.0 (Homebrew) / v0.130.0 (Go module) / Docker luthersystems/mars
+  published: '2026-07-15'
+  install:
+  - brew install luthersystems/repo/mars
+  - docker pull luthersystems/mars
+  source: https://github.com/luthersystems/mars
+  docs: https://github.com/luthersystems/mars/blob/main/README.md
+  commands:
+    infrastructure: ['mars <env> terraform -- <terraform args>', 'ansible (via containerised runner, needs ssh agent forwarding)']
+  key_flows:
+  - Run Terraform against a Luther environment with the pre-warmed aws/google provider cache the image ships
+  - Manage the infrastructure modules that insideout-terraform-presets and sandbox-infrastructure-template pin
+  note: The README describes it as the Luther Systems infrastructure management tool; the Homebrew formula pins v0.91.0 while the module is at v0.130.0.
+- name: agentsearch-mcp
+  package: '@luthersystems/agentsearch'
+  version: 0.1.2
+  published: '2026-05-21'
+  license: MIT
+  install: [npx -y @luthersystems/agentsearch]
+  source: https://github.com/luthersystems/agentsearch/tree/main/mcp
+  commands:
+    mcp: ['(no subcommands — starts the stdio MCP server)']
+  note: Recorded for completeness; it is an MCP server binary, not a general CLI. See mcp/luthersystems-com-mcp.yml.

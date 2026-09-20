@@ -1,0 +1,147 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  Named by the provider's own docs (agentsearch README + api-docs, insideout-agent-skills README/AGENTS.md,
+  substrate-agent-skills SKILL.md, mars README, docs.luthersystems.com middleware pages); version and
+  published date read from registry metadata on 2026-09-19 — registry.npmjs.org/@luthersystems%2F<pkg>,
+  proxy.golang.org/github.com/luthersystems/<mod>/@latest, hub.docker.com/v2/repositories/luthersystems/,
+  and the Homebrew formula in github.com/luthersystems/homebrew-repo. Nothing on PyPI (pypi.org/pypi/
+  luthersystems, agentsearch, insideout-agent-skills, luther-insideout all 404; the PyPI project `insideout`
+  belongs to a different author and is excluded), Maven Central, NuGet, RubyGems, Packagist or crates.io.
+description: >-
+  First-party packages fall into three products. AgentSearch and InsideOut ship MCP servers on npm (scoped
+  @luthersystems, published by GitHub Actions with npm provenance) and InsideOut also as a Docker image;
+  the Luther Enterprise platform ships Go SDKs (shiroclient gateway JSON-RPC client, LutherAuth JWT
+  validation, the svc middleware toolkit, the ELPS interpreter), the shirotester developer CLI on npm with
+  per-platform binary packages, the mars infrastructure CLI via a Homebrew tap and Docker, and Protobuf
+  contracts on the Buf Schema Registry. A Java shiroclient SDK exists on GitHub but is archived (2023) and
+  not on Maven Central.
+packages:
+- language: javascript
+  registry: npm
+  name: '@luthersystems/agentsearch'
+  url: https://www.npmjs.com/package/@luthersystems/agentsearch
+  source: https://github.com/luthersystems/agentsearch/tree/main/mcp
+  install: npx -y @luthersystems/agentsearch
+  official: true
+  kind: mcp-server (stdio)
+  version: 0.1.2
+  published: '2026-05-21'
+  releases: 3
+  license: MIT
+  note: Binary agentsearch-mcp. Five tools mirroring the hosted MCP endpoint and the HTTP API. See mcp/luthersystems-com-mcp.yml.
+- language: javascript
+  registry: npm
+  name: '@luthersystems/insideout-mcp'
+  url: https://www.npmjs.com/package/@luthersystems/insideout-mcp
+  source: https://github.com/luthersystems/insideout-mcp (not public)
+  install: npx -y @luthersystems/insideout-mcp
+  official: true
+  kind: mcp-server (stdio)
+  version: 0.50.1
+  published: '2026-05-31'
+  releases: 3
+  license: UNLICENSED
+  platform_packages: ['@luthersystems/insideout-mcp-linux-x64', '@luthersystems/insideout-mcp-linux-arm64', '@luthersystems/insideout-mcp-darwin-x64', '@luthersystems/insideout-mcp-darwin-arm64']
+  note: Binary insideout-mcp. Stdio counterpart of https://app.luthersystems.com/v1/insideout-mcp.
+- language: docker
+  registry: dockerhub
+  name: luthersystems/insideout-mcp
+  url: https://hub.docker.com/r/luthersystems/insideout-mcp
+  install: docker run -i --rm luthersystems/insideout-mcp:latest
+  official: true
+  kind: mcp-server (stdio)
+  version: latest (tags main, main-42d2d7a8; SBOM attestations attached)
+  published: '2026-08-26'
+  pulls: 47999
+  note: The provider's AGENTS.md calls this the fallback for stdio-only clients and air-gapped environments.
+- language: javascript
+  registry: npm
+  name: '@luthersystems/shirotester'
+  url: https://www.npmjs.com/package/@luthersystems/shirotester
+  source: https://github.com/luthersystems/substrate (not public)
+  install: npx @luthersystems/shirotester <command>
+  official: true
+  kind: cli + mcp-server (stdio) + language server
+  version: 2.236.0
+  published: '2026-09-01'
+  releases: 18
+  license: Apache-2.0
+  platform_packages: ['@luthersystems/shirotester-linux-x64', '@luthersystems/shirotester-linux-arm64', '@luthersystems/shirotester-darwin-x64', '@luthersystems/shirotester-darwin-arm64']
+  note: Substrate/ELPS developer toolkit — lint, analyze, debug, repl, lsp, fmt, unit-tests, functional-tests, doc, mcp. Catalogued in cli/luthersystems-com-cli.yml.
+- language: go
+  registry: pkg.go.dev
+  name: github.com/luthersystems/shiroclient-sdk-go
+  url: https://pkg.go.dev/github.com/luthersystems/shiroclient-sdk-go/shiroclient
+  source: https://github.com/luthersystems/shiroclient-sdk-go
+  install: go get github.com/luthersystems/shiroclient-sdk-go
+  official: true
+  kind: sdk
+  version: v0.15.1
+  published: '2026-08-26'
+  note: JSON-RPC client for the shiroclient gateway that fronts phylum (common operations script) logic on the Luther Platform; includes a mock backend.
+- language: go
+  registry: pkg.go.dev
+  name: github.com/luthersystems/lutherauth-sdk-go
+  url: https://pkg.go.dev/github.com/luthersystems/lutherauth-sdk-go
+  source: https://github.com/luthersystems/lutherauth-sdk-go
+  install: go get github.com/luthersystems/lutherauth-sdk-go
+  official: true
+  kind: sdk
+  version: v0.0.9
+  published: '2026-08-04'
+  note: Extracts and validates RS256 JWT claims issued by LutherAuth from gRPC metadata, HTTP cookies or headers; JWK caching, CSRF nonces, API-key pre-validation.
+- language: go
+  registry: pkg.go.dev
+  name: github.com/luthersystems/svc
+  url: https://pkg.go.dev/github.com/luthersystems/svc
+  source: https://github.com/luthersystems/svc
+  install: go get github.com/luthersystems/svc
+  official: true
+  kind: sdk
+  version: v0.16.0
+  published: '2026-08-04'
+  note: Building blocks for Luther Platform middleware — gRPC/HTTP middleware, observability, document storage, error handling.
+- language: go
+  registry: pkg.go.dev
+  name: github.com/luthersystems/elps
+  url: https://pkg.go.dev/github.com/luthersystems/elps
+  source: https://github.com/luthersystems/elps
+  install: go get github.com/luthersystems/elps
+  official: true
+  kind: language-runtime
+  version: v1.62.1
+  published: '2026-09-19'
+  note: The embedded Lisp interpreter Substrate business logic (phyla) is written in; 36 GitHub stars.
+- language: go
+  registry: homebrew
+  name: luthersystems/repo/mars
+  url: https://github.com/luthersystems/homebrew-repo/blob/main/Formula/mars.rb
+  source: https://github.com/luthersystems/mars
+  install: brew install luthersystems/repo/mars
+  official: true
+  kind: cli
+  version: v0.91.0 (Homebrew formula) / v0.130.0 (Go module, proxy.golang.org) / Docker luthersystems/mars updated 2026-07-15
+  published: '2026-07-15'
+  note: Infrastructure management CLI (Terraform/Ansible wrapper). The Homebrew formula lags the module by 39 minor versions — the tap is not the current distribution.
+- language: protobuf
+  registry: buf.build
+  name: buf.build/luthersystems/protos
+  url: https://buf.build/luthersystems/protos
+  source: https://github.com/luthersystems/protos
+  official: true
+  kind: schema-module
+  version: null
+  published: null
+  note: Buf Schema Registry module (HTTP 200) named in buf.yaml and as the go_package of pdfserv/v1; the BSR page is JS-rendered and no version was read. Files saved verbatim in grpc/luthersystems-protos/.
+- language: java
+  registry: null
+  name: shiroclient-sdk-java
+  url: https://github.com/luthersystems/shiroclient-sdk-java
+  source: https://github.com/luthersystems/shiroclient-sdk-java
+  official: true
+  kind: sdk
+  version: null
+  published: null
+  archived: true
+  note: GitHub repository archived; last push 2023-06-22; not found on Maven Central. Recorded as an abandoned SDK.

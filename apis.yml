@@ -1,18 +1,259 @@
 aid: luthersystems-com
 name: Luther Systems
-description: 'Luther Systems is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Luther Systems is a London- and Campbell, CA-based enterprise software company (Luther Systems Limited
+  and Luther Systems US Incorporated) whose Luther Platform automates end-to-end enterprise processes —
+  "Deep Process Automation" — for customers such as Allianz and DLA Piper's TOKO, running business logic
+  (ELPS "phyla") on the Substrate runtime over Hyperledger Fabric with ConnectorHub integrations, a
+  shiroclient JSON-RPC gateway, LutherAuth identity and Buf-managed Protobuf contracts. Its public,
+  agent-native surface is two products: AgentSearch (agentsearch.luthersystems.com) — a free, no-auth,
+  daily-scored index of ~4,300 AI agents and MCP servers exposed as an OpenAPI 3.1 HTTP API, a hosted
+  Streamable HTTP MCP server (5 tools) plus an npm stdio package, and an A2A 0.3.0 agent card with a live
+  JSON-RPC endpoint — and InsideOut (Riley) — an agentic cloud architect that designs, prices, generates
+  Terraform for, deploys and inspects AWS/GCP infrastructure through a hosted MCP server at
+  app.luthersystems.com (24 tools, session-scoped, no keys for design), an A2A 0.3 card, provider-published
+  Agent Skills, Claude Code / Kiro / Cursor plugins and a Docker image. The enterprise platform ships Go
+  SDKs, the shirotester CLI (with a local MCP server), the mars infrastructure CLI and a public docs
+  repository with dated release notes.
 url: https://raw.githubusercontent.com/api-evangelist/luthersystems-com/refs/heads/main/apis.yml
+image: https://avatars.githubusercontent.com/u/20160060?v=4
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-19 (local-v3; was a2a-registry harvest stub)
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
-- Company
-apis: []
+- Agents
+- Agent Discovery
+- MCP
+- A2A
+- agent-native
+- Cloud Infrastructure
+- Terraform
+- Infrastructure as Code
+- Process Automation
+- Enterprise Automation
+- Distributed Ledger
+- Hyperledger Fabric
+- Insurance
+- Financial Services
+- Open Source
+apis:
+- aid: luthersystems-com:agentsearch-api
+  name: AgentSearch HTTP API
+  description: >-
+    Public, no-auth HTTP API for AgentSearch, Luther Systems' daily-scored index of AI agents and MCP
+    servers, at https://agentsearch.luthersystems.com. Six operations described by a provider-published
+    OpenAPI 3.1.0 (POST /api/search, GET /api/agent/{name}, POST /api/found-agent, GET /api/browse,
+    GET /api/stats, GET /.well-known/agent.json) that the spec itself says mirrors the
+    @luthersystems/agentsearch MCP server; POST /api/submit-agent is documented on /api-docs but not in
+    the spec. Read-only, best-effort ~60 requests/minute/IP, MIT-licensed surfaces on GitHub.
+  humanURL: https://agentsearch.luthersystems.com/api-docs
+  baseURL: https://agentsearch.luthersystems.com
+  tags:
+  - Agents
+  - Agent Discovery
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/luthersystems-com-agentsearch-openapi.yml
+  - type: OpenAPI
+    name: AgentSearch OpenAPI 3.1 (provider-hosted)
+    url: https://agentsearch.luthersystems.com/openapi.json
+  - type: Overlay
+    url: overlays/luthersystems-com-agentsearch-overlay.yaml
+  - type: Documentation
+    url: https://agentsearch.luthersystems.com/api-docs
+  - type: APIReference
+    url: https://agentsearch.luthersystems.com/api-docs
+  - type: LLMsTxt
+    url: llms/luthersystems-com-llms.txt
+  - type: LLMsTxt
+    name: llms.txt (provider-hosted)
+    url: https://agentsearch.luthersystems.com/llms.txt
+  - type: ErrorCatalog
+    url: errors/luthersystems-com-problem-types.yml
+  - type: DataModel
+    url: data-model/luthersystems-com-data-model.yml
+  - type: RateLimits
+    url: rate-limits/luthersystems-com-rate-limits.yml
+  - type: AgentSkill
+    url: skills/luthersystems-com-agentsearch-find-agent.md
+  - type: SourceCode
+    url: https://github.com/luthersystems/agentsearch
+- aid: luthersystems-com:agentsearch-mcp
+  name: AgentSearch MCP Server
+  description: >-
+    Model Context Protocol surface for AgentSearch in two deployments. Hosted: POST
+    https://agentsearch.luthersystems.com/api/mcp, Streamable HTTP, protocol version 2025-06-18,
+    serverInfo agentsearch 0.1.0 — initialize and tools/list answered anonymously on 2026-09-19 with five
+    read-only tools (search, agent_details, found_agent, browse, stats), each with a real inputSchema.
+    Local: @luthersystems/agentsearch on npm (0.1.2, 2026-05-21, MIT), the same five tools over stdio.
+  humanURL: https://agentsearch.luthersystems.com/api-docs
+  baseURL: https://agentsearch.luthersystems.com/api/mcp
+  tags:
+  - MCP
+  - agent-native
+  - Agents
+  properties:
+  - type: MCPServer
+    url: mcp/luthersystems-com-mcp.yml
+  - type: MCPServer
+    name: AgentSearch hosted MCP endpoint (Streamable HTTP)
+    url: https://agentsearch.luthersystems.com/api/mcp
+  - type: ToolCrosswalk
+    url: mcp/luthersystems-com-tool-crosswalk.yml
+  - type: Packages
+    url: packages/luthersystems-com-packages.yml
+  - type: Documentation
+    url: https://agentsearch.luthersystems.com/api-docs
+  - type: SourceCode
+    url: https://github.com/luthersystems/agentsearch/tree/main/mcp
+- aid: luthersystems-com:agentsearch-a2a-agent
+  name: AgentSearch A2A Agent
+  description: >-
+    Agent2Agent surface for AgentSearch — an agent card at
+    https://agentsearch.luthersystems.com/.well-known/agent-card.json (protocolVersion 0.3.0, version
+    0.1.0, provider Luther Systems, five skills with the same ids as the MCP tools, securitySchemes none,
+    additionalInterfaces naming the JSON-RPC, MCP streamable-http and MCP stdio endpoints) and a live
+    JSON-RPC 2.0 endpoint at https://agentsearch.luthersystems.com/api/a2a answering agent/getCard,
+    tasks/get and message/send. The card grades near-conformant against A2A 1.0.0 (preferredTransport
+    absent); the legacy /.well-known/agent.json still serves an older, flavored card.
+  humanURL: https://github.com/luthersystems/agentsearch
+  baseURL: https://agentsearch.luthersystems.com/api/a2a
+  tags:
+  - A2A
+  - agent-native
+  - Agents
+  properties:
+  - type: AgentCard
+    url: a2a/luthersystems-com-a2a.yml
+  - type: AgentCard
+    name: A2A Agent Card (provider-hosted)
+    url: https://agentsearch.luthersystems.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://github.com/luthersystems/agentsearch
+- aid: luthersystems-com:insideout-mcp
+  name: InsideOut (Riley) MCP Server
+  description: >-
+    Hosted Model Context Protocol server for InsideOut, Luther Systems' agentic cloud architect: POST
+    https://app.luthersystems.com/v1/insideout-mcp, Streamable HTTP with SSE responses and an
+    Mcp-Session-Id, protocol version 2025-06-18, serverInfo insideout-agent v2.0.0. initialize, tools/list
+    (24 tools — convoopen/convoreply design conversation, tfgenerate/tfplan/tfdeploy/tfdestroy/tfdrift
+    Terraform jobs, tfstatus/tflogs/tfoutputs/tfruns monitoring, stackversions/stackdiff/stackrollback,
+    awsinspect/gcpinspect, credawait, submit_feedback, help) and prompts/list answered anonymously on
+    2026-09-19. Design and pricing need no credential; deployment needs a browser-connected AWS/GCP
+    account and a subscription. Also shipped as @luthersystems/insideout-mcp (npm 0.50.1) and the Docker
+    image luthersystems/insideout-mcp, and packaged as Agent Skills plus Claude Code, Kiro and Cursor
+    plugins; listed on Smithery, Glama and the Docker MCP Registry.
+  humanURL: https://github.com/luthersystems/insideout-agent-skills
+  baseURL: https://app.luthersystems.com/v1/insideout-mcp
+  tags:
+  - MCP
+  - agent-native
+  - Cloud Infrastructure
+  - Terraform
+  properties:
+  - type: MCPServer
+    url: mcp/luthersystems-com-mcp.yml
+  - type: MCPServer
+    name: InsideOut hosted MCP endpoint (Streamable HTTP)
+    url: https://app.luthersystems.com/v1/insideout-mcp
+  - type: AgentSkill
+    url: skills/luthersystems-com-insideout-SKILL.md
+  - type: AgentSkill
+    name: InsideOut SKILL.md (provider-published)
+    url: https://github.com/luthersystems/insideout-agent-skills/blob/main/SKILL.md
+  - type: LLMsTxt
+    url: llms/luthersystems-com-insideout-llms.txt
+  - type: LLMsTxt
+    name: InsideOut llms.txt (provider-hosted)
+    url: https://insideout.luthersystems.com/llms.txt
+  - type: Documentation
+    url: https://github.com/luthersystems/insideout-agent-skills
+  - type: Authentication
+    url: authentication/luthersystems-com-authentication.yml
+  - type: Conventions
+    url: conventions/luthersystems-com-conventions.yml
+  - type: Packages
+    url: packages/luthersystems-com-packages.yml
+- aid: luthersystems-com:insideout-a2a-agent
+  name: InsideOut A2A Agent
+  description: >-
+    Agent2Agent surface for InsideOut — an agent card at
+    https://insideout.luthersystems.com/.well-known/agent-card.json (protocolVersion 0.3, version 1.0.0,
+    provider Luther Systems, one skill design-deploy-cloud, preferredTransport JSONRPC, capabilities
+    streaming true; also served at the legacy path and on app.luthersystems.com) and live JSON-RPC 2.0
+    endpoints at /insideout-a2a/v0/ (0.3) and /insideout-a2a/ (1.0) that answer with a2a-protocol.org
+    ErrorInfo details; tasks/get requires an X-A2A-Task-Secret header. Grades conformant against A2A
+    1.0.0.
+  humanURL: https://insideout.luthersystems.com/
+  baseURL: https://insideout.luthersystems.com/insideout-a2a/v0/
+  tags:
+  - A2A
+  - agent-native
+  - Cloud Infrastructure
+  properties:
+  - type: AgentCard
+    url: a2a/luthersystems-com-a2a.yml
+  - type: AgentCard
+    name: InsideOut A2A Agent Card (provider-hosted)
+    url: https://insideout.luthersystems.com/.well-known/agent-card.json
+  - type: Documentation
+    url: https://github.com/luthersystems/insideout-agent-skills
+- aid: luthersystems-com:luther-platform-protobuf
+  name: Luther Platform Protobuf Contracts
+  description: >-
+    Buf-managed Protocol Buffers published at github.com/luthersystems/protos (module
+    buf.build/luthersystems/protos) that define API contracts and shared messages across the Luther
+    Enterprise platform: the pdfserv.v1 PDFService gRPC service (rpc Generate), healthcheck.v1,
+    common.v1 exceptions, a sensitive-field annotation, and 80 ConnectorHub connector configuration
+    schemas (Salesforce, SAP S/4HANA, Stripe, Postgres, Kafka, DocuSign, Equifax, Anthropic Claude ...).
+    The platform is customer-deployed (public cloud, private cloud or on-premise) and exposes business
+    logic through the shiroclient JSON-RPC gateway and grpc-gateway-transcoded middleware, so no public
+    base URL exists; the sandbox starter kit shows the pattern with a SandboxService and a generated
+    Swagger 2.0. Complemented by Go SDKs, the shirotester CLI and the Substrate Agent Skill.
+  humanURL: https://github.com/luthersystems/protos
+  tags:
+  - Protobuf
+  - gRPC
+  - Process Automation
+  - Enterprise Automation
+  properties:
+  - type: Protobuf
+    url: grpc/luthersystems-protos/pdfserv/v1/service.proto
+  - type: Protobuf
+    url: grpc/luthersystems-protos/pdfserv/v1/pdfserv.proto
+  - type: Protobuf
+    url: grpc/luthersystems-protos/healthcheck/v1/healthcheck.proto
+  - type: Protobuf
+    url: grpc/luthersystems-protos/common/v1/exception.proto
+  - type: Protobuf
+    url: grpc/luthersystems-protos/connectorhub/connectors/v1/connector_common.proto
+  - type: Protobuf
+    name: protos repository (provider-hosted, 85 .proto files)
+    url: https://github.com/luthersystems/protos
+  - type: Documentation
+    url: https://docs.luthersystems.com/
+  - type: GettingStarted
+    url: https://github.com/luthersystems/docs/blob/main/common-operation-script/quickstart/README.md
+  - type: SDKs
+    url: packages/luthersystems-com-packages.yml
+  - type: CLI
+    url: cli/luthersystems-com-cli.yml
+  - type: AgentSkill
+    url: skills/luthersystems-com-substrate-SKILL.md
+  - type: AgentSkill
+    name: Substrate SKILL.md (provider-published)
+    url: https://github.com/luthersystems/substrate-agent-skills/blob/main/SKILL.md
+  - type: LLMsTxt
+    url: llms/luthersystems-com-substrate-llms.txt
+  - type: Authentication
+    url: authentication/luthersystems-com-authentication.yml
+  - type: SourceCode
+    url: https://github.com/luthersystems/sandbox
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -21,3 +262,91 @@ maintainers:
 common:
 - type: Website
   url: https://luthersystems.com/
+- type: Documentation
+  url: https://docs.luthersystems.com/
+- type: APIReference
+  url: https://agentsearch.luthersystems.com/api-docs
+- type: GettingStarted
+  url: https://github.com/luthersystems/docs/blob/main/common-operation-script/quickstart/README.md
+- type: Support
+  url: https://www.luthersystems.com/contact
+- type: Blog
+  url: https://www.luthersystems.com/insights
+- type: CaseStudies
+  url: https://www.luthersystems.com/case-studies
+- type: GitHubOrganization
+  url: https://github.com/luthersystems
+- type: LinkedIn
+  url: https://www.linkedin.com/company/luther-systems
+- type: PrivacyPolicy
+  url: https://www.luthersystems.com/privacy-policy
+- type: CookiePolicy
+  url: https://www.luthersystems.com/cookie-policy
+- type: DataSubjectRequest
+  url: https://www.luthersystems.com/privacy-policy
+- type: ChangeLog
+  url: changelog/luthersystems-com-changelog.yml
+- type: ChangeLog
+  name: Luther Platform release notes (provider-hosted)
+  url: https://github.com/luthersystems/docs/blob/main/release-notes.md
+- type: Security
+  url: https://github.com/luthersystems/insideout-agent-skills/blob/main/SECURITY.md
+- type: VulnerabilityDisclosure
+  url: security/luthersystems-com-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/luthersystems-com-domain-security.yml
+- type: WellKnown
+  url: well-known/luthersystems-com-well-known.yml
+- type: AgentCard
+  url: a2a/luthersystems-com-a2a.yml
+- type: MCPServer
+  url: mcp/luthersystems-com-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/luthersystems-com-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/luthersystems-com-llms.txt
+- type: LLMsTxt
+  name: AgentSearch llms.txt (provider-hosted)
+  url: https://agentsearch.luthersystems.com/llms.txt
+- type: LLMsTxt
+  name: InsideOut llms.txt (provider-hosted)
+  url: https://insideout.luthersystems.com/llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgentSkill
+  name: InsideOut SKILL.md (provider-published)
+  url: https://github.com/luthersystems/insideout-agent-skills/blob/main/SKILL.md
+- type: AgentSkill
+  name: Substrate SKILL.md (provider-published)
+  url: https://github.com/luthersystems/substrate-agent-skills/blob/main/SKILL.md
+- type: Protobuf
+  url: grpc/luthersystems-protos/pdfserv/v1/service.proto
+- type: Packages
+  url: packages/luthersystems-com-packages.yml
+- type: SDKs
+  url: packages/luthersystems-com-packages.yml
+- type: CLI
+  url: cli/luthersystems-com-cli.yml
+- type: Authentication
+  url: authentication/luthersystems-com-authentication.yml
+- type: Conventions
+  url: conventions/luthersystems-com-conventions.yml
+- type: ErrorCatalog
+  url: errors/luthersystems-com-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/luthersystems-com-lifecycle.yml
+- type: Conformance
+  url: conformance/luthersystems-com-conformance.yml
+- type: DataModel
+  url: data-model/luthersystems-com-data-model.yml
+- type: Plans
+  url: plans/luthersystems-com-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/luthersystems-com-rate-limits.yml
+- type: RegulatoryPosture
+  url: regulatory/luthersystems-com-regulatory-posture.yml
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 122
+  pass: local-v3

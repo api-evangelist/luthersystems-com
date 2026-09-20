@@ -1,0 +1,33 @@
+generated: '2026-09-19'
+method: searched
+source: https://agentsearch.luthersystems.com/.well-known/agent-card.json
+also:
+- https://agentsearch.luthersystems.com/api-docs
+- https://agentsearch.luthersystems.com/.well-known/agent.json
+- mcp/luthersystems-com-insideout-mcp-tools.json (tfdeploy/tfplan/tfdestroy/tfdrift descriptions)
+description: >-
+  AgentSearch documents one limit, in prose on its agent card: ~60 requests per minute per IP,
+  best-effort, no auth (the legacy card says "60 requests per minute per IP (best-effort, no auth
+  required)"; api-docs says "no rate limit beyond best-effort fairness"). No response headers
+  (X-RateLimit-*, RateLimit-*, Retry-After) and no exhaustion status code are documented, and the live
+  responses observed on 2026-09-19 carried none. InsideOut publishes no request-rate limit; its
+  concurrency rule is single-flight per session for Terraform jobs (tf_job_conflict) and tfdeploy is a
+  15+ minute job. The enterprise platform's limits are per-deployment transaction limits described in
+  the v3.0.0 announcement, not API rate limits.
+limit_count: 1
+limits:
+- scope: per-IP
+  api: AgentSearch (HTTP /api/*, MCP /api/mcp, A2A /api/a2a)
+  window: 1 minute
+  limit: 60
+  burst: null
+  enforcement: best-effort
+  headers: []
+  status_on_exhaustion: null
+  source: https://agentsearch.luthersystems.com/.well-known/agent-card.json (pricing.rateLimit)
+concurrency:
+- scope: per-session
+  api: InsideOut MCP
+  rule: one Terraform job (apply/plan/destroy/drift) in flight per session; a second call returns tf_job_conflict with the live job_id; force_new=true overrides
+  source: live tools/list descriptions
+headers_observed: none (probed 2026-09-19 — no RateLimit-*, X-RateLimit-* or Retry-After on /api/stats or /api/mcp responses)

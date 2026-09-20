@@ -1,0 +1,184 @@
+generated: '2026-09-19'
+method: probed
+source: https://agentsearch.luthersystems.com/.well-known/agent-card.json
+summary: >-
+  Luther Systems serves TWO A2A agent cards from two of its own hosts, and both back a live JSON-RPC
+  responder. AgentSearch (agentsearch.luthersystems.com, protocolVersion 0.3.0, five skills, no auth) is
+  the card the a2a-registry harvest surfaced and is the primary card here; it grades near-conformant only
+  because it omits the optional preferredTransport. InsideOut (insideout.luthersystems.com, protocolVersion
+  0.3, one skill, preferredTransport JSONRPC) grades conformant and is recorded as an additional card; the
+  same InsideOut body is also served at the canonical and legacy paths on app.luthersystems.com, the host
+  that runs its MCP server. Every card was fetched with HTTP 200 and application/json, every host passed a
+  negative-control probe (a /.well-known/ path that cannot exist returned 404), and ownership is settled by
+  the documents themselves — provider.organization is "Luther Systems" on both, provider.url is
+  luthersystems.com / insideout.luthersystems.com, documentationUrl points at github.com/luthersystems, and
+  both cards are listed on a2aregistry.org under author "Luther Systems". The primary domain
+  (luthersystems.com, www) serves no card: both paths 404.
+card:
+  file: a2a/luthersystems-com-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: agentsearch.luthersystems.com
+  note: >-
+    The legacy /.well-known/agent.json on the same host also answers 200 application/json but with a
+    DIFFERENT, older card (3,208 bytes vs 4,463): capabilities is a string ARRAY, there is no
+    protocolVersion, url is the site root and skills carry input/action/output prose instead of
+    examples/inputModes/outputModes. That body is saved as a2a/luthersystems-com-agentsearch-legacy-agent.json
+    and would grade flavored on its own; the canonical path is what is graded. The provider's own
+    api-docs and llms.txt still link the legacy path, and the published OpenAPI documents GET
+    /.well-known/agent.json rather than agent-card.json.
+conformance:
+  spec: A2A 1.0.0
+  grade: near-conformant
+  graded_card: agentsearch
+  protocol_version: 0.3.0
+  preferred_transport: null
+  deviations:
+  - no-preferredTransport
+  - non-spec-securityScheme-type (securitySchemes.public.type "none")
+  - non-a2a-transports-in-additionalInterfaces (mcp-streamable-http, mcp-stdio with an npx:// pseudo-URL)
+  - non-spec-top-level-fields (homepage, license, pricing)
+  - legacy-path-serves-a-different-card
+  checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+    preferred_transport_present: false
+    default_input_modes_present: true
+    default_output_modes_present: true
+    additional_interfaces_present: true
+    signatures_present: false
+  note: >-
+    capabilities is {streaming: false, pushNotifications: false, stateTransitionHistory: false}; skills[]
+    entries carry id, name, description, tags, examples, inputModes and outputModes. additionalInterfaces
+    lists the JSON-RPC endpoint and two MCP interfaces — recorded, not counted against the card, because
+    the spec leaves the transport string open — and the card is where the provider declares its MCP
+    endpoint (mirrored in mcp/luthersystems-com-mcp.yml).
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://agentsearch.luthersystems.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  body_bytes: 4463
+  last_modified: 'Mon, 14 Sep 2026 13:35:32 GMT'
+  server: Vercel
+  body_parses_as: JSON object with AgentCard shape (protocolVersion, name, description, url, version, provider, documentationUrl, capabilities, additionalInterfaces, defaultInputModes, defaultOutputModes, skills, securitySchemes)
+  corroborating_probes:
+  - url: https://agentsearch.luthersystems.com/api/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"agent/getCard"}'
+    http_status: 200
+    note: A live JSON-RPC 2.0 responder; agent/getCard returned the same card body. A GET on the endpoint returns a JSON usage note pointing at message/send. No message was sent.
+  - url: https://agentsearch.luthersystems.com/api/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":2,"method":"tasks/get","params":{"id":"api-evangelist-nonexistent-task"}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":2,"result":{"id":"api-evangelist-nonexistent-task","status":{"state":"completed"},"history":[]}}'
+    note: Quirk — an unknown task id is answered as completed with empty history rather than TaskNotFoundError (-32001). Recorded, not graded.
+  - url: https://agentsearch.luthersystems.com/.well-known/agent.json
+    http_status: 200
+    note: Legacy path; serves a different, older card (see discovery.note). Saved verbatim.
+  - url: https://agentsearch.luthersystems.com/.well-known/luthersystems-com-negative-control-7f3a9c1e.json
+    http_status: 404
+    note: Negative control — the host does not catch-all /.well-known/*.
+  - url: https://luthersystems.com/.well-known/agent-card.json
+    http_status: 404
+    note: Primary domain serves no card (www and the legacy path also 404).
+  - url: https://a2aregistry.org/api/agents?offset=200&limit=50
+    http_status: 200
+    note: AgentSearch is listed with author "Luther Systems" and wellKnownURI pointing at the canonical path on this host.
+agent_card:
+  name: AgentSearch
+  description: Find AI agents and MCP servers by natural-language query; indexes ~3,700 hosted agents daily, probes reachability, scores reputation/usability/functionality. Read-only, free, no auth.
+  version: 0.1.0
+  protocol_version: 0.3.0
+  url: https://agentsearch.luthersystems.com/api/a2a
+  preferred_transport: null
+  provider:
+    organization: Luther Systems
+    url: https://luthersystems.com
+  documentation: https://github.com/luthersystems/agentsearch
+  license: MIT
+  pricing: free, best-effort ~60 requests per minute per IP
+  skills: 5
+  skill_ids: [search, agent_details, found_agent, browse, stats]
+additional_cards:
+- id: insideout
+  file: a2a/luthersystems-com-insideout-agent-card.json
+  source: https://insideout.luthersystems.com/.well-known/agent-card.json
+  discovery:
+    path: /.well-known/agent-card.json
+    canonical: true
+    host: insideout.luthersystems.com
+    note: >-
+      Byte-identical (3,635 bytes) at the legacy /.well-known/agent.json on the same host and at both
+      paths on app.luthersystems.com, the host that serves the InsideOut MCP endpoint. Both hosts passed
+      the negative-control probe (404). a2aregistry.org lists this card (offset 300) under author
+      "Luther Systems" with wellKnownURI at the legacy path.
+  conformance:
+    spec: A2A 1.0.0
+    grade: conformant
+    protocol_version: '0.3'
+    preferred_transport: JSONRPC
+    deviations:
+    - non-spec-top-level-field supportedInterfaces (five entries with protocolBinding/protocolVersion, alongside a spec-shaped additionalInterfaces)
+    - protocolVersion "0.3" is not a full semver string
+    - supportedInterfaces declares a GRPC binding at https://app.luthersystems.com that no public gRPC reflection or proto was found for
+    checks:
+      capabilities_is_object: true
+      protocol_version_present: true
+      skills_is_array: true
+      preferred_transport_present: true
+      default_input_modes_present: true
+      default_output_modes_present: true
+      additional_interfaces_present: true
+      signatures_present: false
+    note: >-
+      capabilities is {streaming: true}; one skill (design-deploy-cloud) with id, name, description,
+      examples and 32 tags. The card's url is https://insideout.luthersystems.com/insideout-a2a/v0/, and
+      supportedInterfaces also names a protocolVersion 1.0 JSON-RPC endpoint at /insideout-a2a/ and
+      HTTP+JSON REST bindings at /insideout-a2a/rest/ (404 on GET) and /insideout-a2a/v0/rest/ (404 on GET).
+  x-evidence:
+    fetched: '2026-09-19'
+    url: https://insideout.luthersystems.com/.well-known/agent-card.json
+    http_status: 200
+    content_type: application/json
+    body_bytes: 3635
+    server: Vercel
+    corroborating_probes:
+    - url: https://insideout.luthersystems.com/insideout-a2a/v0/
+      method: POST
+      body: '{"jsonrpc":"2.0","id":1,"method":"agent/getCard"}'
+      http_status: 200
+      response: '{"jsonrpc":"2.0","id":1,"error":{"code":-32601,"message":"method not found","data":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","domain":"a2a-protocol.org","reason":"METHOD_NOT_FOUND"}]}}'
+      note: A live JSON-RPC 2.0 responder emitting a2a-protocol.org ErrorInfo details; agent/getCard is not implemented. A GET returns -32600 INVALID_REQUEST in the same envelope.
+    - url: https://insideout.luthersystems.com/insideout-a2a/v0/
+      method: POST
+      body: '{"jsonrpc":"2.0","id":2,"method":"tasks/get","params":{"id":"api-evangelist-nonexistent-task"}}'
+      http_status: 200
+      response: '{"jsonrpc":"2.0","id":2,"error":{"code":-32602,"message":"X-A2A-Task-Secret header is required: invalid params"}}'
+      note: tasks/get is implemented and gated by a per-task secret header the card does not declare in securitySchemes.
+    - url: https://insideout.luthersystems.com/insideout-a2a/
+      method: POST
+      body: '{"jsonrpc":"2.0","id":2,"method":"tasks/get","params":{"id":"x"}}'
+      http_status: 200
+      note: The protocolVersion 1.0 endpoint answers -32601 method not found for agent/getCard and tasks/get.
+    - url: https://app.luthersystems.com/.well-known/agent-card.json
+      http_status: 200
+      note: Same 3,635-byte body on the MCP host; app.luthersystems.com passed the negative-control probe (404).
+    - url: https://insideout.luthersystems.com/.well-known/luthersystems-com-negative-control-7f3a9c1e.json
+      http_status: 404
+      note: Negative control.
+  agent_card:
+    name: InsideOut
+    version: 1.0.0
+    protocol_version: '0.3'
+    url: https://insideout.luthersystems.com/insideout-a2a/v0/
+    preferred_transport: JSONRPC
+    provider:
+      organization: Luther Systems
+      url: https://insideout.luthersystems.com
+    documentation: https://github.com/luthersystems/insideout-agent-skills
+    skills: 1
+    skill_ids: [design-deploy-cloud]
