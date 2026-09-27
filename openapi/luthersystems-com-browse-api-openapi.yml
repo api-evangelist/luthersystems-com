@@ -1,0 +1,67 @@
+openapi: 3.2.0
+info:
+  title: AgentSearch HTTP Browse API
+  version: 0.1.0
+  description: Public, no-auth HTTP API for AgentSearch — a daily-scored, curated index of AI agents and MCP servers. Mirrors the @luthersystems/agentsearch MCP server.
+  contact:
+    name: Luther Systems
+    url: https://luthersystems.com
+  license:
+    name: MIT
+    url: https://github.com/luthersystems/agentsearch/blob/main/LICENSE
+servers:
+- url: https://agentsearch.luthersystems.com
+  description: production
+tags:
+- name: Browse
+paths:
+  /api/browse:
+    get:
+      summary: Paginated index listing
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: page_size
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 100
+      responses:
+        '200':
+          description: One page of agents.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  page_size:
+                    type: integer
+                  total:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AgentSummary'
+      tags:
+      - Browse
+      operationId: getApiBrowse
+      x-operation-id-source: derived
+components:
+  schemas:
+    AgentSummary:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        overall_score:
+          type: number

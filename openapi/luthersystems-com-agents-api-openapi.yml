@@ -1,0 +1,99 @@
+openapi: 3.2.0
+info:
+  title: AgentSearch HTTP Agents API
+  version: 0.1.0
+  description: Public, no-auth HTTP API for AgentSearch — a daily-scored, curated index of AI agents and MCP servers. Mirrors the @luthersystems/agentsearch MCP server.
+  contact:
+    name: Luther Systems
+    url: https://luthersystems.com
+  license:
+    name: MIT
+    url: https://github.com/luthersystems/agentsearch/blob/main/LICENSE
+servers:
+- url: https://agentsearch.luthersystems.com
+  description: production
+tags:
+- name: Agents
+  description: Scored profiles of indexed agents.
+paths:
+  /api/agent/{name}:
+    get:
+      summary: Get one agent profile
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Full scored profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentDetails'
+        '404':
+          description: Agent not in index.
+      operationId: getAgent
+      tags:
+      - Agents
+components:
+  schemas:
+    AgentDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        description:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+        sources:
+          type: array
+          items:
+            type: string
+        raw:
+          type: object
+          additionalProperties: true
+        blocker:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - alive
+              - dead
+              - timeout
+              - error
+            status_code:
+              type: integer
+            speed_ms:
+              type: number
+            eliminated:
+              type: boolean
+        scores:
+          type: object
+          properties:
+            fame:
+              type: object
+            usability:
+              type: object
+            functionality:
+              type: object
+            call_graph:
+              type: number
+            overall:
+              type: number
+externalDocs:
+  description: AgentSearch API & agent surfaces
+  url: https://agentsearch.luthersystems.com/api-docs
+x-api-evangelist:
+  source: https://agentsearch.luthersystems.com/openapi.json
+  fetched: '2026-09-19'
+  http_status: 200
+  original: openapi/_original/luthersystems-com-agentsearch-openapi.json
+  changes: operationId, tags[] and externalDocs added by API Evangelist (the published spec declares none); every path, parameter, schema and server is as published. The same additions are expressed as an OpenAPI Overlay in overlays/luthersystems-com-agentsearch-overlay.yaml. The published spec omits POST /api/submit-agent, which /api-docs documents; it was NOT added here.

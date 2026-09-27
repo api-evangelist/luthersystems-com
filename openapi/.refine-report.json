@@ -1,0 +1,44 @@
+{
+  "provider": "luthersystems-com",
+  "sources": [
+    "_original/luthersystems-com-agentsearch-openapi.json",
+    "luthersystems-com-agentsearch-openapi.yml"
+  ],
+  "outputs": [
+    "luthersystems-com-well-known-api-openapi.yml",
+    "luthersystems-com-agent-api-openapi.yml",
+    "luthersystems-com-browse-api-openapi.yml",
+    "luthersystems-com-found-agent-api-openapi.yml",
+    "luthersystems-com-search-api-openapi.yml",
+    "luthersystems-com-stats-api-openapi.yml",
+    "luthersystems-com-agents-api-openapi.yml",
+    "luthersystems-com-discovery-api-openapi.yml",
+    "luthersystems-com-index-api-openapi.yml",
+    "luthersystems-com-scoring-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/luthersystems-com-agentsearch-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "luthersystems-com-agentsearch-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "luthersystems-com-agentsearch-openapi.json: tagged paths POST /api/search -> Search",
+    "luthersystems-com-agentsearch-openapi.json: tagged paths GET /api/agent/{name} -> Agent",
+    "luthersystems-com-agentsearch-openapi.json: tagged paths POST /api/found-agent -> Found Agent",
+    "luthersystems-com-agentsearch-openapi.json: tagged paths GET /api/browse -> Browse",
+    "luthersystems-com-agentsearch-openapi.json: tagged paths GET /api/stats -> Stats",
+    "luthersystems-com-agentsearch-openapi.json: tagged paths GET /.well-known/agent.json -> .well Known",
+    "luthersystems-com-agentsearch-openapi.json: declared missing tag: .well Known",
+    "luthersystems-com-agentsearch-openapi.json: declared missing tag: Agent",
+    "luthersystems-com-agentsearch-openapi.json: declared missing tag: Browse",
+    "luthersystems-com-agentsearch-openapi.json: declared missing tag: Found Agent",
+    "luthersystems-com-agentsearch-openapi.json: declared missing tag: Search",
+    "luthersystems-com-agentsearch-openapi.json: declared missing tag: Stats",
+    "luthersystems-com-agentsearch-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'Search' spans 2 source specs (luthersystems-com-agentsearch-openapi.json, luthersystems-com-agentsearch-openapi.yml): per-path servers applied",
+    "apis.yml register: written (+10 apis, 15 total)"
+  ],
+  "skipped": []
+}
