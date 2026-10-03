@@ -289,32 +289,6 @@ apis:
     url: rate-limits/luthersystems-com-rate-limits.yml
   - type: SourceCode
     url: https://github.com/luthersystems/agentsearch
-- aid: luthersystems-com:luthersystems-com-agents-api
-  name: Luther Systems Agents API
-  description: Scored profiles of indexed agents.
-  humanURL: https://agentsearch.luthersystems.com/api-docs
-  baseURL: https://agentsearch.luthersystems.com
-  tags:
-  - Agents
-  properties:
-  - type: OpenAPI
-    url: openapi/luthersystems-com-agents-api-openapi.yml
-  - type: Documentation
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: APIReference
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: LLMsTxt
-    url: llms/luthersystems-com-llms.txt
-  - type: LLMsTxt
-    url: https://agentsearch.luthersystems.com/llms.txt
-  - type: ErrorCatalog
-    url: errors/luthersystems-com-problem-types.yml
-  - type: DataModel
-    url: data-model/luthersystems-com-data-model.yml
-  - type: RateLimits
-    url: rate-limits/luthersystems-com-rate-limits.yml
-  - type: SourceCode
-    url: https://github.com/luthersystems/agentsearch
 - aid: luthersystems-com:luthersystems-com-browse-api
   name: Luther Systems Browse API
   description: The Browse API from Luther Systems — 1 operation(s) for browse.
@@ -341,32 +315,6 @@ apis:
     url: rate-limits/luthersystems-com-rate-limits.yml
   - type: SourceCode
     url: https://github.com/luthersystems/agentsearch
-- aid: luthersystems-com:luthersystems-com-discovery-api
-  name: Luther Systems Discovery API
-  description: A2A agent card.
-  humanURL: https://agentsearch.luthersystems.com/api-docs
-  baseURL: https://agentsearch.luthersystems.com
-  tags:
-  - Discovery
-  properties:
-  - type: OpenAPI
-    url: openapi/luthersystems-com-discovery-api-openapi.yml
-  - type: Documentation
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: APIReference
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: LLMsTxt
-    url: llms/luthersystems-com-llms.txt
-  - type: LLMsTxt
-    url: https://agentsearch.luthersystems.com/llms.txt
-  - type: ErrorCatalog
-    url: errors/luthersystems-com-problem-types.yml
-  - type: DataModel
-    url: data-model/luthersystems-com-data-model.yml
-  - type: RateLimits
-    url: rate-limits/luthersystems-com-rate-limits.yml
-  - type: SourceCode
-    url: https://github.com/luthersystems/agentsearch
 - aid: luthersystems-com:luthersystems-com-found-agent-api
   name: Luther Systems Found Agent API
   description: The Found Agent API from Luther Systems — 1 operation(s) for found agent.
@@ -377,58 +325,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/luthersystems-com-found-agent-api-openapi.yml
-  - type: Documentation
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: APIReference
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: LLMsTxt
-    url: llms/luthersystems-com-llms.txt
-  - type: LLMsTxt
-    url: https://agentsearch.luthersystems.com/llms.txt
-  - type: ErrorCatalog
-    url: errors/luthersystems-com-problem-types.yml
-  - type: DataModel
-    url: data-model/luthersystems-com-data-model.yml
-  - type: RateLimits
-    url: rate-limits/luthersystems-com-rate-limits.yml
-  - type: SourceCode
-    url: https://github.com/luthersystems/agentsearch
-- aid: luthersystems-com:luthersystems-com-index-api
-  name: Luther Systems Index API
-  description: Browse and summarise the whole index.
-  humanURL: https://agentsearch.luthersystems.com/api-docs
-  baseURL: https://agentsearch.luthersystems.com
-  tags:
-  - Index
-  properties:
-  - type: OpenAPI
-    url: openapi/luthersystems-com-index-api-openapi.yml
-  - type: Documentation
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: APIReference
-    url: https://agentsearch.luthersystems.com/api-docs
-  - type: LLMsTxt
-    url: llms/luthersystems-com-llms.txt
-  - type: LLMsTxt
-    url: https://agentsearch.luthersystems.com/llms.txt
-  - type: ErrorCatalog
-    url: errors/luthersystems-com-problem-types.yml
-  - type: DataModel
-    url: data-model/luthersystems-com-data-model.yml
-  - type: RateLimits
-    url: rate-limits/luthersystems-com-rate-limits.yml
-  - type: SourceCode
-    url: https://github.com/luthersystems/agentsearch
-- aid: luthersystems-com:luthersystems-com-scoring-api
-  name: Luther Systems Scoring API
-  description: Live scoring of an arbitrary agent URL.
-  humanURL: https://agentsearch.luthersystems.com/api-docs
-  baseURL: https://agentsearch.luthersystems.com
-  tags:
-  - Scoring
-  properties:
-  - type: OpenAPI
-    url: openapi/luthersystems-com-scoring-api-openapi.yml
   - type: Documentation
     url: https://agentsearch.luthersystems.com/api-docs
   - type: APIReference

@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Luthersystems Com Search API
+  title: AgentSearch HTTP Search API
   version: 0.1.0
+  description: Public, no-auth HTTP API for AgentSearch — a daily-scored, curated index of AI agents and MCP servers. Mirrors the @luthersystems/agentsearch MCP server.
   contact:
     name: Luther Systems
     url: https://luthersystems.com
   license:
     name: MIT
     url: https://github.com/luthersystems/agentsearch/blob/main/LICENSE
-  description: 'Operations tagged Search across 2 of this provider''s published API definitions: luthersystems-com-agentsearch-openapi.json, luthersystems-com-agentsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://agentsearch.luthersystems.com
   description: production
@@ -51,9 +51,6 @@ paths:
       - Search
       operationId: postApiSearch
       x-operation-id-source: derived
-    servers:
-    - url: https://agentsearch.luthersystems.com
-      description: production
 components:
   schemas:
     SearchResult:
@@ -77,9 +74,3 @@ components:
           maximum: 1
         reasoning:
           type: string
-externalDocs:
-  description: AgentSearch API & agent surfaces
-  url: https://agentsearch.luthersystems.com/api-docs
-x-refined-from:
-- luthersystems-com-agentsearch-openapi.json
-- luthersystems-com-agentsearch-openapi.yml
