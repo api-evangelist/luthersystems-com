@@ -11,9 +11,7 @@
     "luthersystems-com-search-api-openapi.yml",
     "luthersystems-com-stats-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 4 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -32,18 +30,13 @@
     "luthersystems-com-agentsearch-openapi.json: declared missing tag: Found Agent",
     "luthersystems-com-agentsearch-openapi.json: declared missing tag: Search",
     "luthersystems-com-agentsearch-openapi.json: declared missing tag: Stats",
-    "superseded outputs removed: luthersystems-com-agents-api-openapi.yml, luthersystems-com-discovery-api-openapi.yml, luthersystems-com-index-api-openapi.yml, luthersystems-com-scoring-api-openapi.yml",
-    "apis.yml register: written (+0 apis, 11 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "_original/luthersystems-com-agentsearch-openapi.yml: archived document superseded by a larger archived document",
     "luthersystems-com-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "luthersystems-com-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "luthersystems-com-browse-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "luthersystems-com-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "luthersystems-com-found-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "luthersystems-com-index-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "luthersystems-com-scoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "luthersystems-com-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "luthersystems-com-stats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "luthersystems-com-well-known-api-openapi.yml: previously refined output, superseded by openapi/_original/"
