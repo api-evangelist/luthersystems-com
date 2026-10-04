@@ -269,6 +269,8 @@ apis:
   humanURL: https://agentsearch.luthersystems.com/api-docs
   baseURL: https://agentsearch.luthersystems.com
   tags:
+  - Agents
+  tags_raw:
   - Agent
   properties:
   - type: OpenAPI
