@@ -427,6 +427,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Pricing
+  url: https://agentsearch.luthersystems.com/.well-known/agent-card.json
 - type: Overlay
   url: overlays/luthersystems-com-agentsearch-overlay.yaml
 - type: AgentSkill
