@@ -35,3 +35,16 @@ unpublished:
 - product: Luther Platform (enterprise)
   note: Consumption estimator publishes core counts, not prices; hosting-costs.md gives an AWS baseline of approximately GBP 96/month plus variable compute/storage; contact sales for commercial terms.
   url: https://www.luthersystems.com/platform/consumption-estimate
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: AgentSearch — free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
