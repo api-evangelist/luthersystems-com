@@ -22,3 +22,126 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: luthersystems-com-a2aregistry-org
+  label: a2aregistry.org
+  partner_name: a2aregistry.org
+  category: A2A agent registry
+  type: register
+  channel: standard-directory
+  evidence: https://a2aregistry.org/api/agents/2922b3a6-6f7f-42f4-98ee-2ef52bb46255
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: a2aregistry.org /api/agents
+    spec_file: null
+    standard: A2A
+    role: a2a-registry-listing
+    registered_name: Luther Systems
+    matched_domain: luthersystems.com
+    matched_by: domain
+    matched_via: card-host
+    listings_context: 2
+    sample_agents:
+    - AgentSearch
+    - InsideOut
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null
+- slug: luthersystems-com-go-module-proxy
+  label: Go module proxy
+  partner_name: Go module proxy
+  category: official SDK (Go)
+  type: register
+  channel: package-registry
+  evidence: https://pkg.go.dev/github.com/luthersystems/elps
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Go module proxy (public registry JSON)
+    spec_file: null
+    language: Go
+    packages:
+    - name: github.com/luthersystems/elps
+      version: v1.79.1
+      released: '2026-10-16'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/luthersystems/elps
+      repo_leg: github-org:luthersystems
+      publisher_leg: org:luthersystems
+      matched_by: github-org
+    - name: github.com/luthersystems/lutherauth-sdk-go
+      version: v0.0.9
+      released: '2026-08-04'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/luthersystems/lutherauth-sdk-go
+      repo_leg: github-org:luthersystems
+      publisher_leg: org:luthersystems
+      matched_by: github-org
+    - name: github.com/luthersystems/shiroclient-sdk-go
+      version: v0.17.1
+      released: '2026-09-26'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/luthersystems/shiroclient-sdk-go
+      repo_leg: github-org:luthersystems
+      publisher_leg: org:luthersystems
+      matched_by: github-org
+    - name: github.com/luthersystems/svc
+      version: v0.19.0
+      released: '2026-10-05'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/luthersystems/svc
+      repo_leg: github-org:luthersystems
+      publisher_leg: org:luthersystems
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: luthersystems-com-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@luthersystems/agentsearch
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@luthersystems/agentsearch'
+      version: 0.1.2
+      released: '2026-05-21'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@luthersystems/agentsearch
+      repo_leg: domain:luthersystems.com
+      publisher_leg: email:luthersystems.com
+      matched_by: domain
+    - name: '@luthersystems/shirotester'
+      version: 2.247.0
+      released: '2026-10-07'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@luthersystems/shirotester
+      repo_leg: github-org:luthersystems
+      publisher_leg: email:luthersystems.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
