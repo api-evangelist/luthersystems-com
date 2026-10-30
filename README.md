@@ -64,5 +64,132 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Luther Systems is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://luthersystems.com/
+Luther Systems is a London- and Campbell, CA-based enterprise software company (Luther Systems Limited and Luther Systems US Incorporated) whose Luther Platform automates end-to-end enterprise processes — "Deep Process Automation" — for customers such as Allianz and DLA Piper's TOKO, running business logic (ELPS "phyla") on the Substrate runtime over Hyperledger Fabric with ConnectorHub integrations, a shiroclient JSON-RPC gateway, LutherAuth identity and Buf-managed Protobuf contracts. Its public, agent-native surface is two products: AgentSearch (agentsearch.luthersystems.com) — a free, no-auth, daily-scored index of ~4,300 AI agents and MCP servers exposed as an OpenAPI 3.1 HTTP API, a hosted Streamable HTTP MCP server (5 tools) plus an npm stdio package, and an A2A 0.3.0 agent card with a live JSON-RPC endpoint — and InsideOut (Riley) — an agentic cloud architect that designs, prices, generates Terraform for, deploys and inspects AWS/GCP infrastructure through a hosted MCP server at app.luthersystems.com (24 tools, session-scoped, no keys for design), an A2A 0.3 card, provider-published Agent Skills, Claude Code / Kiro / Cursor plugins and a Docker image. The enterprise platform ships Go SDKs, the shirotester CLI (with a local MCP server), the mars infrastructure CLI and a public docs repository with dated release notes.
+
+**Areas:** Agents · Agent Discovery · MCP · A2A · Agent-Native · Cloud Infrastructure · Terraform · Infrastructure as Code · Process Automation · Enterprise Automation · Distributed Ledger · Hyperledger Fabric
+
+## Luther Systems on APIs.io
+
+Everything profiled for Luther Systems is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/luthersystems-com/](https://apis.io/providers/luthersystems-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (11)
+
+- [AgentSearch MCP Server](https://apis.io/apis/luthersystems-com/agentsearch-mcp/) — Model Context Protocol surface for AgentSearch in two deployments. Hosted: POST https://agentsearch.luthersystems.com/api/mcp, Streamable HTTP, protocol…
+- [AgentSearch A2A Agent](https://apis.io/apis/luthersystems-com/agentsearch-a2a-agent/) — Agent2Agent surface for AgentSearch — an agent card at https://agentsearch.luthersystems.com/.well-known/agent-card.json (protocolVersion 0.3.0, version…
+- [InsideOut (Riley) MCP Server](https://apis.io/apis/luthersystems-com/insideout-mcp/) — Hosted Model Context Protocol server for InsideOut, Luther Systems' agentic cloud architect: POST https://app.luthersystems.com/v1/insideout-mcp, Streamable…
+- [InsideOut A2A Agent](https://apis.io/apis/luthersystems-com/insideout-a2a-agent/) — Agent2Agent surface for InsideOut — an agent card at https://insideout.luthersystems.com/.well-known/agent-card.json (protocolVersion 0.3, version 1.0.0,…
+- [Luther Platform Protobuf Contracts](https://apis.io/apis/luthersystems-com/luther-platform-protobuf/) — Buf-managed Protocol Buffers published at github.com/luthersystems/protos (module buf.build/luthersystems/protos) that define API contracts and shared…
+- [Luther Systems Agent API](https://apis.io/apis/luthersystems-com/luthersystems-com-agent-api/) — The Agent API from Luther Systems — 1 operation(s) for agent.
+- [Luther Systems Browse API](https://apis.io/apis/luthersystems-com/luthersystems-com-browse-api/) — The Browse API from Luther Systems — 1 operation(s) for browse.
+- [Luther Systems Found Agent API](https://apis.io/apis/luthersystems-com/luthersystems-com-found-agent-api/) — The Found Agent API from Luther Systems — 1 operation(s) for found agent.
+- [Luther Systems Search API](https://apis.io/apis/luthersystems-com/luthersystems-com-search-api/) — The Search API from Luther Systems — 1 operation(s) for search.
+- [Luther Systems Stats API](https://apis.io/apis/luthersystems-com/luthersystems-com-stats-api/) — The Stats API from Luther Systems — 1 operation(s) for stats.
+- [Luther Systems .well Known API](https://apis.io/apis/luthersystems-com/luthersystems-com-well-known-api/) — The .well Known API from Luther Systems — 1 operation(s) for .well known.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (2)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [InsideOut hosted MCP endpoint (Streamable HTTP)](https://apis.io/servers/luthersystems-com/insideout-hosted-mcp-endpoint-streamable-http/)
+- [luthersystems-com-mcp.yml](https://apis.io/servers/luthersystems-com/luthersystems-com-mcp-yml/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Luthersystems Com Agentsearch Overlay](https://apis.io/overlays/luthersystems-com/luthersystems-com-agentsearch-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Luthersystems Com Authentication](https://apis.io/security/luthersystems-com/luthersystems-com-authentication/)
+- [Luthersystems Com Domain Security](https://apis.io/security/luthersystems-com/luthersystems-com-domain-security/)
+- [Luthersystems Com Vulnerability Disclosure](https://apis.io/security/luthersystems-com/luthersystems-com-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Luthersystems Com Plans Pricing](https://apis.io/plans/luthersystems-com/luthersystems-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Luthersystems Com Rate Limits](https://apis.io/rate-limits/luthersystems-com/luthersystems-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://luthersystems.com/)
+- [Documentation](https://docs.luthersystems.com/)
+- [Getting started](https://github.com/luthersystems/docs/blob/main/common-operation-script/quickstart/README.md)
+- [API reference](https://agentsearch.luthersystems.com/api-docs)
+- [Pricing](https://agentsearch.luthersystems.com/.well-known/agent-card.json)
+- [Support](https://www.luthersystems.com/contact)
+- [Changelog](https://github.com/luthersystems/docs/blob/main/release-notes.md)
+- [Blog](https://www.luthersystems.com/insights)
+- [Security](https://github.com/luthersystems/insideout-agent-skills/blob/main/SECURITY.md)
+- [Privacy policy](https://www.luthersystems.com/privacy-policy)
+- [GitHub](https://github.com/luthersystems)
+
+## API Evangelist rating
+
+**Kin Score 49.6** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 43.3 |
+| Contract governance | 18.2 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 69.0 |
+| Access clarity | 42.1 |
+
+**Agent readiness 31.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | near-conformant (partial credit) |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 27.2** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/luthersystems-com/](https://apis.io/providers/luthersystems-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Luther Systems: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/luthersystems-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
